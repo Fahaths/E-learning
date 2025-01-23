@@ -5,30 +5,36 @@ import Footer from './components/Footer';
 import Home from './pages/Home';
 import About from './pages/About';
 import Courses from './pages/Courses';
-import Assingment from './pages/Assingment';
-import Login from './pages/Login';
-import ForgotPassword from './pages/Forgetpassword'; // Import ForgotPassword
-import Signup from './pages/Signup'; // Import Signup
-
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Assingment from './pages/Assingment'; // Importing the Assignment component
+import Login from './pages/Login'; // Importing the Login component
+import Signup from './pages/Signup'; // Importing the Signup component
+import ForgotPassword from './pages/Forgetpassword'; // Importing the Forgot Password component
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 function App() {
   return (
-    <BrowserRouter>
-      <div className="App">
-        <Header />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/courses" element={<Courses />} />
-          <Route path="/assingment" element={<Assingment />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/forgot-password" element={<ForgotPassword />} /> {/* Add ForgotPassword route */}
-          <Route path="/signup" element={<Signup />} /> {/* Add Signup route */}
-        </Routes>
-        <Footer /> 
-      </div>
-    </BrowserRouter>
+    <Router>
+      <Header />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/courses" element={<Courses />} />
+        <Route path="/assignments" element={<Assingment />} /> {/* Adding route for Assignments */}
+        <Route path="/login" element={<Login />} /> {/* Adding route for Login */}
+        <Route path="/signup" element={<Signup />} /> {/* Adding route for Signup */}
+        <Route path="/forgot-password" element={<ForgotPassword />} /> {/* Adding route for Forgot Password */}
+      </Routes>
+      <br />
+      <br /><br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
+      <Footer />
+    </Router>
   );
 }
 
