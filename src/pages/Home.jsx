@@ -8,7 +8,7 @@ function Home() {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const response = await axios.get('https://your-actual-wordpress-site.com/wp-json/wp/v2/posts'); // Update this URL
+        const response = await axios.get('https://testlms.measiit.edu.in/wp-json/wp/v2/posts'); // Updated URL
 
         setPosts(response.data);
       } catch (error) {
