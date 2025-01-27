@@ -15,8 +15,7 @@ function Signup() {
       return;
     }
     try {
-      const response = await axios.post('https://your-actual-wordpress-site.com/wp-json/wp/v2/users/register', {
-
+      const response = await axios.post('https://your-actual-wordpress-site.com/wp-json/wp/v2/users/register', { // Update this URL
         username: email,
         email: email,
         password: password,

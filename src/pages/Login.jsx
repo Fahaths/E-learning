@@ -14,6 +14,7 @@ function Login() {
         password: password,
       });
       console.log('Logged in successfully:', response.data);
+      // Optionally store the token and redirect the user
     } catch (error) {
       console.error('Error logging in:', error);
     }
