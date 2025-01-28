@@ -1,20 +1,36 @@
 import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
 
 function Login() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const navigate = useNavigate(); // Hook for navigation
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!email || !password) {
+      alert("Please fill in all fields.");
+      return;
+    }
+
+    try {
+      await axios.post('/api/login', { email, password });
+      alert("Login successful!"); // Use the response for a success message
+      navigate('/'); // Redirect to home page after successful login
+    } catch (error) {
+      alert("Login failed. Please try again.");
+    }
+  };
+
   return (
     <div>
-      <h1>Login Page</h1>
+      <h1>Login</h1>
       <form onSubmit={handleSubmit}>
-        <label>Username:</label>
-        <input type="text" name="username" value={username} onChange={(e) => setUsername(e.target.value)} /> <br />
-        <label>Password:</label>
-        <input type="password" name="password" value={password} onChange={(e) => setPassword(e.target.value)} /> <br />
-        <input type="submit" value="Login" />
+        <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} /> <br />
+        <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} /> <br />
+        <button type="submit">Login</button>
       </form>
-      <Link to="/forgot-password">Forgot Password?</Link>
-      <br />
       <Link to="/signup">Don't have an account? Sign Up</Link>
     </div>
   );

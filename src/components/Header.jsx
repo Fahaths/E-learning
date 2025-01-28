@@ -6,7 +6,7 @@ const Header = ({ isAuth }) => {
   return (
     <header>
       <div className="logo">
-       E-learning
+        E-learning
       </div>
 
       <div className="link">
@@ -14,8 +14,8 @@ const Header = ({ isAuth }) => {
         <Link to={"/courses"}>Courses</Link>
         <Link to={"/about"}>About</Link>
         <Link to={"/assignments"}>Assingment</Link>
-          <Link to={"/login"}>Login</Link>
-        
+        <Link to={"/login"}>Login</Link>
+        <Link to={"/signup"}>Sign Up</Link> {/* Added link to Signup */}
       </div>
     </header>
   );
