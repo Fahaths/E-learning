@@ -3,23 +3,6 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 
 function Login() {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const response = await axios.post('https://your-actual-wordpress-site.com/wp-json/jwt-auth/v1/token', { // Update this URL
-        username: username,
-        password: password,
-      });
-      console.log('Logged in successfully:', response.data);
-      // Optionally store the token and redirect the user
-    } catch (error) {
-      console.error('Error logging in:', error);
-    }
-  };
-
   return (
     <div>
       <h1>Login Page</h1>
