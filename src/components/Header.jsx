@@ -12,7 +12,9 @@ const Header = ({ isAuth }) => {
       <div className="link">
         <Link to={"/"}>Home</Link>
         <Link to={"/courses"}>Courses</Link>
-        <Link to={"/about"}>About</Link>
+        <Link to={"/posts"}>posts</Link>
+
+      <Link to={"/about"}>About</Link>
         <Link to={"/assignments"}>Assingment</Link>
         <Link to={"/login"}>Login</Link>
         <Link to={"/signup"}>Sign Up</Link> {/* Added link to Signup */}
