@@ -1,0 +1,112 @@
+:root {
+  --max-width: 1200px;
+  --spacing: 20px;
+  --border-radius: 8px;
+  --shadow: 0 2px 4px rgba(0,0,0,0.1);
+  --color-primary: #801515;
+  --color-text: #333;
+  --color-text-light: #666;
+  --color-error: #cc0000;
+  --color-error-bg: #ffe6e6;
+}
+
+/* Container Styles */
+.courses-container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: var(--spacing);
+}
+
+
+/* Course List Styles */
+.courses-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: var(--spacing);
+  padding: 0;
+  list-style: none;
+}
+
+/* Course Card Styles */
+.course-card {
+  background: #fff;
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.course-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+
+/* Media Styles */
+.course-media {
+  position: relative;
+  padding-top: 56.25%; /* 16:9 aspect ratio */
+  background: #f0f0f0;
+}
+
+.course-media img,
+.course-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: opacity 0.3s ease;
+}
+
+.course-media img:hover,
+.course-video:hover {
+  opacity: 0.9;
+}
+
+
+/* Content Styles */
+.course-content {
+  padding: var(--spacing);
+}
+
+.course-content h2 {
+  margin: 0 0 10px;
+  font-size: 1.25rem;
+  color: var(--color-text);
+}
+
+.course-description {
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--color-text-light);
+}
+
+
+/* State Styles */
+.loading-spinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+  font-size: 1.2rem;
+  color: var(--color-text-light);
+}
+
+.error-message {
+  padding: var(--spacing);
+  background: var(--color-error-bg);
+  border: 1px solid var(--color-error);
+  border-radius: var(--border-radius);
+  color: var(--color-error);
+  text-align: center;
+}
+
+.placeholder-image {
+  background: #f0f0f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-light);
+}

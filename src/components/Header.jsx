@@ -1,26 +1,52 @@
-import React from "react";
-import "./header.css";
-import { Link } from "react-router-dom";
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import './header.css';
 
-const Header = ({ isAuth }) => {
+
+function Header() {
+  const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  const toggleMobileMenu = () => {
+    setMobileMenuOpen(!isMobileMenuOpen);
+  };
+
   return (
-    <header>
-      <div className="logo">
-        E-learning
-      </div>
+    <header className="header">
+      <div className="header-container">
+        <div className="logo">
+          <Link to="/">E-Learning</Link>
+        </div>
 
-      <div className="link">
-        <Link to={"/"}>Home</Link>
-        <Link to={"/courses"}>Courses</Link>
-        <Link to={"/posts"}>posts</Link>
+        {/* Desktop Navigation */}
+        <nav className="desktop-nav">
+          <ul>
+            <li><Link to="/">Home</Link></li>
+            <li><Link to="/courses">Courses</Link></li>
+            <li><Link to="/about">About</Link></li>
+            <li><Link to="/contact">Contact</Link></li>
+          </ul>
+        </nav>
 
-      <Link to={"/about"}>About</Link>
-        <Link to={"/assignments"}>Assingment</Link>
-        <Link to={"/login"}>Login</Link>
-        <Link to={"/signup"}>Sign Up</Link> {/* Added link to Signup */}
+        {/* Mobile Navigation */}
+        <div className="mobile-nav">
+          <button className="hamburger" onClick={toggleMobileMenu}>
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+
+          <nav className={`mobile-menu ${isMobileMenuOpen ? 'open' : ''}`}>
+            <ul>
+              <li><Link to="/" onClick={toggleMobileMenu}>Home</Link></li>
+              <li><Link to="/courses" onClick={toggleMobileMenu}>Courses</Link></li>
+              <li><Link to="/about" onClick={toggleMobileMenu}>About</Link></li>
+              <li><Link to="/contact" onClick={toggleMobileMenu}>Contact</Link></li>
+            </ul>
+          </nav>
+        </div>
       </div>
     </header>
   );
-};
+}
 
 export default Header;
