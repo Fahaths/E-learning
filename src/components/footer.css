@@ -3,7 +3,10 @@ footer {
   color: white;
   padding: 20px 0;
   text-align: center;
-  bottom: 0;
+  position: fixed; /* Fix the footer at the bottom */
+  left: 0; /* Span full width */
+  right: 0; /* Span full width */
+  bottom: 0; /* Position at the bottom */
 
   .footer-content {
     max-width: 1200px;
