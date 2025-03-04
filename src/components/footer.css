@@ -3,7 +3,7 @@ footer {
   color: white;
   padding: 20px 0;
   text-align: center;
-  position: fixed; /* Fix the footer at the bottom */
+  position: relative; /* Fix the footer at the bottom */
   left: 0; /* Span full width */
   right: 0; /* Span full width */
   bottom: 0; /* Position at the bottom */

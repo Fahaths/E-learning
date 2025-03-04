@@ -17,6 +17,15 @@
   padding: var(--spacing);
 }
 
+.heading {
+  text-align: center; /* Center the text */
+  font-weight: bold;  /* Make the text bold */
+  display: block;     /* Ensure it takes up the full width */
+  line-height: 1.5;   /* Adjust line height for better spacing */
+  margin: 15rem;          /* Remove default margin */
+ 
+}
+
 
 /* Course List Styles */
 .courses-list {
@@ -41,7 +50,6 @@
   box-shadow: 0 4px 8px rgba(0,0,0,0.15);
 }
 
-
 /* Media Styles */
 .course-media {
   position: relative;
@@ -65,7 +73,6 @@
   opacity: 0.9;
 }
 
-
 /* Content Styles */
 .course-content {
   padding: var(--spacing);
@@ -82,7 +89,6 @@
   line-height: 1.5;
   color: var(--color-text-light);
 }
-
 
 /* State Styles */
 .loading-spinner {

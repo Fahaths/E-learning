@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import Auth from './Auth'; // Import the Auth component
+
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import ReactPlayer from 'react-player';
@@ -36,20 +38,13 @@ function Home() {
 
   return (
     <div>
-      <h1>Welcome to Measi E-learning Website</h1>
-      <nav>
-        <ul>
-          <li><Link to="/courses">Courses</Link></li>
-          <li><Link to="/assignments">Assignments</Link></li>
-          <li><Link to="/about">About</Link></li>
-          <li><Link to="/login">Login</Link></li>
-          <li><Link to="/signup">Sign Up</Link></li>
-        </ul>
-      </nav>
+          
+      
+      <h1 className='heading'>Welcome to Measi E-learning Website</h1>
+      
       <div className="courses-container">
-        <h2>Featured React Courses</h2>
-        <p className="featured-description">Get started with these top React.js courses</p>
-
+        <h2>Featured Courses</h2>
+       
         {loading && <div className="loading-spinner">Loading courses...</div>}
         {error && <div className="error-message">{error}</div>}
         {!loading && !error && (
@@ -92,8 +87,10 @@ function Home() {
           </ul>
         )}
       </div>
+      
     </div>
   );
+  
 }
 
 export default Home;
