@@ -38,10 +38,8 @@ function Courses() {
 
   return (
     <div className="courses-container">
-      <h1>React Courses</h1>
-      <p className="course-category-description">Explore our collection of React.js courses to master front-end development</p>
+      <h1>All Courses</h1>
 
-      
       {loading && <div className="loading-spinner">Loading courses...</div>}
       
       {error && <div className="error-message">{error}</div>}

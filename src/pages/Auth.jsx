@@ -15,26 +15,32 @@ const Auth = () => {
 
   return (
     <div className="auth-container">
-      <button onClick={toggleAuthMode}>
+      <button className="toggle-auth-button" onClick={toggleAuthMode}>
+
         {isLogin ? 'Switch to Signup' : 'Switch to Login'}
       </button>
       <form onSubmit={handleSubmit}>
         <h2>{isLogin ? 'Login' : 'Signup'}</h2>
-        <div>
-          <label htmlFor="email">Email:</label>
-          <input type="email" id="email" required />
+        <div className="input-container">
+          <label htmlFor="email"></label>
+          <input type="email" placeholder='Email' id="email" required />
         </div>
-        <div>
-          <label htmlFor="password">Password:</label>
-          <input type="password" id="password" required />
+        
+
+        <div className="input-container">
+          <label htmlFor="password"></label>
+          <input type="password" placeholder='Password'  id="password" required />
         </div>
+        
+
         {!isLogin && (
-          <div>
-            <label htmlFor="confirmPassword">Confirm Password:</label>
-            <input type="password" id="confirmPassword" required />
+          <div className="input-container">
+            <label htmlFor="confirmPassword"></label>
+            <input type="password" placeholder='Confirm Password' id="confirmPassword" required />
           </div>
         )}
-        <button type="submit">{isLogin ? 'Login' : 'Signup'}</button>
+
+        <button className='submit' type="submit">{isLogin ? 'Login' : 'Signup'}</button>
       </form>
     </div>
   );

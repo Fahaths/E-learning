@@ -116,3 +116,11 @@
   justify-content: center;
   color: var(--color-text-light);
 }
+
+/* Center header content in mobile view */
+@media (max-width: 768px) {
+  .heading {
+    text-align: center; /* Center the text */
+    margin: 5rem; /* Adjust margin for better spacing */
+  }
+}
