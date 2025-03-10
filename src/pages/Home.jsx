@@ -67,7 +67,10 @@ function Home() {
         {error && <div className="error-message">{error}</div>}
         {!loading && !error && (
           <ul className="courses-list">
-            {courses.map(course => (
+            {courses.filter(course => 
+              course.title.rendered.toLowerCase().includes(searchTerm.toLowerCase())
+            ).map(course => (
+
               <li key={course.id} className="course-card">
                 <div className="course-media react-course">
                   {course.video_url ? ( 

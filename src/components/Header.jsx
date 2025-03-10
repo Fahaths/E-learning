@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 import searchIcon from '../assets/search.svg'; // Import the search icon
-
-
 import { Link } from 'react-router-dom';
 import './header.css';
 import Auth from '../pages/Auth';
@@ -9,6 +7,7 @@ import Auth from '../pages/Auth';
 function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSearchBarVisible, setIsSearchBarVisible] = useState(false); // State for search bar visibility
+  const [searchTerm, setSearchTerm] = useState(''); // State for search term
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -20,7 +19,7 @@ function Header() {
 
   return (
     <header className="header">
-        <div className="header-container">
+      <div className="header-container">
         <div className="logo">
           <Link to="/">E-Learning</Link>
         </div>
@@ -28,8 +27,7 @@ function Header() {
         {/* Desktop Navigation */}
         <nav className="desktop-nav">
           <ul>
-            
-              <li><Link to="/">Home</Link></li>
+            <li><Link to="/">Home</Link></li>
             <li><Link to="/courses">Courses</Link></li>
             <li><Link to="/auth">Login/Signup</Link></li>
           </ul>
@@ -37,7 +35,6 @@ function Header() {
 
         {/* Mobile Navigation */}
         <div className="mobile-nav">
-
           <img 
             src={searchIcon} 
             alt="Search" 
@@ -45,13 +42,10 @@ function Header() {
             onClick={toggleSearchBar}
           />
           <button className="hamburger" onClick={toggleMenu}>
-
             <span></span>
             <span></span>
             <span></span>
           </button>
-
-                   
 
           <nav className={`mobile-menu ${isMenuOpen ? 'open' : ''}`}>
             <button className="close-button" onClick={() => setIsMenuOpen(false)}>×</button>
@@ -67,7 +61,13 @@ function Header() {
       {/* Search Bar Component */}
       {isSearchBarVisible && (
         <div className="search-bar">
-          <input type="text" placeholder="Search..." />
+          <input 
+            type="text" 
+            placeholder="Search courses..." 
+            value={searchTerm} 
+            onChange={(e) => setSearchTerm(e.target.value)} 
+            className="search-input"
+          />
         </div>
       )}
     </header>
