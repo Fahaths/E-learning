@@ -4,6 +4,7 @@
   padding: 20px; /* Add padding for spacing */
   box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1); /* Optional: Add shadow for better visibility */
   border-radius: 8px; /* Optional: Add rounded corners */
+  background-color: #f9f9f9; /* Updated background color */
 }
 
 .auth-container h2 {
@@ -19,6 +20,7 @@
   position: relative; /* Position relative for the label */
   margin-bottom: 15px; /* Space between input fields */
 }
+
 
 .auth-container .eye-icon {
   position: absolute; /* Position the eye icon absolutely */
@@ -46,6 +48,13 @@
   border-radius: 6px;
   transition: border-color 0.3s ease; /* Add transition for border color */
 }
+
+.auth-container input:focus {
+  border-color: #801515; /* Change border color on focus */
+  box-shadow: 0 0 5px rgba(128, 21, 21, 0.5); /* Add box-shadow on focus */
+  outline: none; /* Remove outline on focus */
+}
+
 
 .auth-container input::placeholder {
   color:  #aaa; /* Hide placeholder by default */
@@ -79,6 +88,7 @@
   border: none;
   border-radius: 6px;
   cursor: pointer;
+  transition: background-color 0.3s ease; /* Add transition for button */
 }
 
 .auth-container button:hover {
@@ -90,6 +100,9 @@
   text-align: center; /* Center the text */
   margin: 0 auto;
   margin-top: 10px; /* Add some space above the error message */
+  font-size: 1.1rem; /* Increase font size for error message */
+  background-color: #ffe6e6; /* Add background color for error message */
+  padding: 10px; /* Add padding for error message */
 }
 
 .auth-container input, .auth-container .submit {
