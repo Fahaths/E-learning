@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import './Auth.css'; // Assuming you want to style this component separately
+import { Link } from 'react-router-dom'; // Added import for Link
+
 import eyeOpenIcon from '../assets/eyeopen.svg'; // Import the eye open icon
 import eyeClosedIcon from '../assets/eye-closed.svg'; // Import the eye closed icon
 import email from '../assets/email.svg';
@@ -164,7 +166,7 @@ const Auth = () => {
 
         {errorMessage && <p className="error-message">{errorMessage}</p>} {/* Display error message */}
         <button className='submit' type="submit">{isLogin ? 'Login' : 'Signup'}</button>
-        
+        <Link to="/forgot-password" >Forgot Password?</Link> {/* Updated link to point to Forgetpassword.jsx */}
       </form>
       <p>
         Don't have an account?{' '}

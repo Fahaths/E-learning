@@ -35,12 +35,7 @@ function Header() {
 
         {/* Mobile Navigation */}
         <div className="mobile-nav">
-          <img 
-            src={searchIcon} 
-            alt="Search" 
-            className="search-icon" 
-            onClick={toggleSearchBar}
-          />
+          
           <button className="hamburger" onClick={toggleMenu}>
             <span></span>
             <span></span>
@@ -58,18 +53,7 @@ function Header() {
         </div>
       </div>
 
-      {/* Search Bar Component */}
-      {isSearchBarVisible && (
-        <div className="search-bar">
-          <input 
-            type="text" 
-            placeholder="Search courses..." 
-            value={searchTerm} 
-            onChange={(e) => setSearchTerm(e.target.value)} 
-            className="search-input"
-          />
-        </div>
-      )}
+     
     </header>
   );
 }

@@ -49,6 +49,7 @@ function Home() {
           value={searchTerm} 
           onChange={(e) => setSearchTerm(e.target.value)} 
           className="search-input"
+          style={{  marginBottom: '10rem' }}
         />
         
       </div>

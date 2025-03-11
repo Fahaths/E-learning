@@ -6,6 +6,8 @@ import ReactPlayer from 'react-player';
 import { Link } from 'react-router-dom';
 import './Courses.css';
 
+
+
 function Courses() {
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -53,6 +55,9 @@ function Courses() {
 
   return (
     <div className="courses-container">
+      
+
+
       <h1>All Courses</h1>
       <select 
         value={selectedSort}

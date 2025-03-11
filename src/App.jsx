@@ -22,6 +22,8 @@ function App() {
         <Route path="/posts" element={<Posts />} />
         <Route path="/assignments" element={<Assingment />} /> {/* Adding route for Assignments */}
         <Route path="/Auth" element={<Auth />} /> {/* Adding route for Login */}
+        <Route path="/forgot-password" element={<ForgotPassword />} /> {/* Adding route for Forgot Password */}
+
         
       </Routes>
       <br />
