@@ -18,7 +18,6 @@ function Courses() {
         setError(null);
         const response = await axios.get('https://testlms.measiit.edu.in/wp-json/wp/v2/courses?categories=react&_embed');
 
-        
         if (Array.isArray(response.data)) {
           setCourses(response.data);
         } else {
@@ -77,7 +76,9 @@ function Courses() {
                     }}
                   />
                 ) : (
-                  <a href={`https://testlms.measiit.edu.in/wp-admin/post.php?post=${course.id}&action=edit`} target="_blank" rel="noopener noreferrer">
+                    <a href={`https://testlms.measiit.edu.in/courses/${course.slug}`} rel="noopener noreferrer" onClick={() => console.log(course.slug)}>
+
+
                     <img 
                       src="/images/course-placeholder.jpg" 
                       alt="Course placeholder" 
@@ -118,7 +119,8 @@ Courses.propTypes = {
         rendered: PropTypes.string
       }),
       video_url: PropTypes.string,
-      featured_media_url: PropTypes.string
+      featured_media_url: PropTypes.string,
+      slug: PropTypes.string // Added slug for public URL
     })
   )
 };
