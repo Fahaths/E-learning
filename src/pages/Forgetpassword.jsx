@@ -1,17 +1,21 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import './Forgetpassword.css';
+import axios from 'axios';
 
 function ForgotPassword() {
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Placeholder for password reset logic
-    console.log('Reset password for:', email);
-    setMessage('If an account with that email exists, a verification link will be sent to your email.');
-  };
+    try {
+        const response = await axios.post('https://yourwordpresssite.com/wp-json/custom/v1/forgot-password', { email });
+        setMessage(response.data.message);
+    } catch (error) {
+        setMessage(error.response?.data?.message || 'An error occurred.');
+    }
+};
 
   return (
     <div className="forget-password-container">
