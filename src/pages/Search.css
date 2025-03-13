@@ -6,6 +6,12 @@
   margin-top: 20px;
 
 }
+.search-container input:focus {
+  border-color: #801515; /* Change border color on focus */
+  box-shadow: 0 0 5px rgba(128, 21, 21, 0.5); /* Add box-shadow on focus */
+  outline: none; /* Remove outline on focus */
+}
+
 
 .search-input {
   width: 100%;
@@ -20,7 +26,8 @@
 /* Media query for responsiveness */
 @media (max-width: 768px) {
   .search-container {
-    margin-bottom: 15px; /* Adjust margin for smaller screens */
+    margin: 15px auto; /* Adjust margin for smaller screens */
+    width: 90%;
     
   }
 

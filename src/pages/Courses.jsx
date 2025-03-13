@@ -6,10 +6,14 @@ import ReactPlayer from 'react-player';
 import { Link } from 'react-router-dom';
 import './Courses.css';
 
+
+
 function Courses() {
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [searchTerm, setSearchTerm] = useState(''); // State for search term
+  const [selectedSort, setSelectedSort] = useState('newest'); // State for sorting option
 
   useEffect(() => {
     const fetchCourses = async () => {
@@ -35,9 +39,42 @@ function Courses() {
     fetchCourses();
   }, []);
 
+  const sortedCourses = [...courses].sort((a, b) => {
+    if (selectedSort === 'newest') {
+      return new Date(b.date) - new Date(a.date);
+    } else if (selectedSort === 'oldest') {
+      return new Date(a.date) - new Date(b.date);
+
+    } else if (selectedSort === 'title-asc') {
+      return a.title.rendered.localeCompare(b.title.rendered);
+    } else if (selectedSort === 'title-desc') {
+      return b.title.rendered.localeCompare(a.title.rendered);
+    }
+    return 0; // Default case
+  });
+
   return (
     <div className="courses-container">
+      
+
+
       <h1>All Courses</h1>
+      <select 
+        value={selectedSort}
+        onChange={(e) => setSelectedSort(e.target.value)}
+        className="sort-dropdown"
+      >
+        <option value="newest">Release Date (newest first)</option>
+        <option value="oldest">Release Date (oldest first)</option>
+        <option value="title-asc">Course Title (a-z)</option>
+        <option value="title-desc">Course Title (z-a)</option>
+      </select>
+      <input 
+        type="text" 
+        placeholder="Search courses..." 
+        onChange={(e) => setSearchTerm(e.target.value)} 
+        className="search-bar"
+      />
 
       {loading && <div className="loading-spinner">Loading courses...</div>}
       
@@ -45,10 +82,11 @@ function Courses() {
       
       {!loading && !error && (
         <ul className="courses-list">
-          {courses.map((course) => (
+          {sortedCourses.filter(course => 
+            course.title.rendered.toLowerCase().includes(searchTerm.toLowerCase())
+          ).map((course) => (
             <li key={course.id} className="course-card">
               <div className="course-media react-course">
-
                 {course.video_url ? (
                   <div className="video-wrapper">
                     <ReactPlayer
