@@ -1,0 +1,41 @@
+header {
+    background-color: #f4f4f4;
+    padding: 20px;
+    text-align: center;
+  }
+  
+  header h1 {
+    margin: 0;
+    font-size: 24px;
+  }
+  
+  header p {
+    margin: 5px 0;
+    font-size: 16px;
+  }
+  
+  nav ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 10px 0;
+  }
+  
+  nav ul li {
+    display: inline;
+    margin: 0 10px;
+    font-size: 14px;
+  }
+  
+  button {
+    margin: 10px 0;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  
+  button:hover {
+    background-color: #0056b3;
+  }
