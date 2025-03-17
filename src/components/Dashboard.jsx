@@ -43,7 +43,7 @@ const Dashboard = () => {
 
   return (
     <div>
-      <Head /> {/* Include the Head component */}
+      
       <h2>Dashboard</h2>
       {errorMessage && <p className="error-message">{errorMessage}</p>} {/* Display error message if any */}
       <section>
@@ -54,6 +54,34 @@ const Dashboard = () => {
           ))}
         </ul>
       </section>
+      <section>
+        <h3>Order History</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Course Name</th>
+              <th>Enrolled</th>
+              <th>Rating</th>
+            </tr>
+          </thead>
+          <tbody>
+            {orders.map(order => (
+              <tr key={order.id}>
+                <td>{order.course_name}</td>
+                <td>{order.enrolled ? 'Yes' : 'No'}</td>
+                <td>{'★'.repeat(order.rating)}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </section>
+      <section>
+        <h3>Settings</h3>
+        <button>Logout</button>
+      </section>
+    </div>
+  );
+
 
 
   return (
