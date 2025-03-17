@@ -4,11 +4,14 @@ import { Link } from 'react-router-dom'; // Added import for Link
 
 import eyeOpenIcon from '../assets/eyeopen.svg'; // Import the eye open icon
 import eyeClosedIcon from '../assets/eye-closed.svg'; // Import the eye closed icon
-import email from '../assets/email.svg';
+import emailIcon from '../assets/email.svg';
+import profileIcon from '../assets/profile.svg';
 
 const Auth = () => {
   const [errorMessage, setErrorMessage] = useState(''); // State for error message
   const [isLogin, setIsLogin] = useState(true);
+  const [successMessage, setSuccessMessage] = useState(''); // State for success message
+
   const [isPasswordVisible, setIsPasswordVisible] = useState(false); // State for password visibility
   const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] = useState(false); // State for confirm password visibility
 
@@ -30,7 +33,37 @@ const Auth = () => {
     return re.test(String(email).toLowerCase());
   };
 
+  const validateToken = async () => {
+    const token = localStorage.getItem('jwt_token');
+    if (!token) {
+      setErrorMessage('No token found. Please log in again.');
+      return;
+    }
+
+    try {
+      const response = await fetch('https://testlms.measiit.edu.in/api/token/validate', { // Corrected endpoint
+        method: 'POST', // Ensure method matches backend
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log('Token is valid:', data);
+      } else {
+        const errorData = await response.json();
+        setErrorMessage(errorData.message || 'Token validation failed.');
+      }
+    } catch (error) {
+      setErrorMessage('An error occurred while validating the token.');
+    }
+  };
+
   const handleSubmit = async (event) => {
+    event.preventDefault();
+
     const emailInput = document.getElementById('email').value;
     if (!isValidEmail(emailInput)) {
       setErrorMessage('Please enter a valid email address');
@@ -38,7 +71,7 @@ const Auth = () => {
     }
 
     setErrorMessage(''); // Reset error message
-    event.preventDefault();
+    setSuccessMessage(''); // Reset success message
 
     if (!isLogin) {
       const username = document.getElementById('email').value; // Assuming email is used as username
@@ -53,14 +86,12 @@ const Auth = () => {
 
       // Signup request
       try {
-        console.log('Signup request URL:', 'https://your-wordpress-site.com/wp-json/wp/v2/users/register');
-        console.log('Signup request body:', JSON.stringify({ username, email: username, password, name: nameInput }));
-        const response = await fetch('https://your-wordpress-site.com/wp-json/wp/v2/users/register', {
+        const response = await fetch('https://testlms.measiit.edu.in/wp-json/custom/v1/register', { // Corrected endpoint
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ username, email: username, password, name: nameInput }), // Include name in the signup request
+          body: JSON.stringify({ username, email: username, password, name: nameInput }),
         });
 
         if (!response.ok) {
@@ -69,10 +100,13 @@ const Auth = () => {
           console.error('Signup error:', errorData);
           return;
         }
+
+        const data = await response.json();
+        setSuccessMessage('Signup successful! Please log in.');
+        console.log('Signup successful:', data);
       } catch (error) {
         setErrorMessage('Network error occurred during signup');
         console.error('Signup network error:', error);
-        return;
       }
     } else {
       // Login request
@@ -80,9 +114,7 @@ const Auth = () => {
       const password = document.getElementById('password').value;
 
       try {
-        console.log('Login request URL:', 'https://your-wordpress-site.com/wp-json/jwt-auth/v1/token');
-        console.log('Login request body:', JSON.stringify({ username, password }));
-        const response = await fetch('https://your-wordpress-site.com/wp-json/jwt-auth/v1/token', {
+        const response = await fetch('https://testlms.measiit.edu.in/wp-json/jwt-auth/v1/token', { // Corrected endpoint
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -96,24 +128,29 @@ const Auth = () => {
           console.error('Login error:', errorData);
           return;
         }
+
+        const data = await response.json();
+        localStorage.setItem('jwt_token', data.token); // Store the JWT token in local storage
+        setSuccessMessage('Login successful!');
+        console.log('Login successful:', data);
       } catch (error) {
         setErrorMessage('Network error occurred during login');
         console.error('Login network error:', error);
-        return;
       }
     }
   };
 
   return (
     <div className="auth-container">
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit}> 
+        {/* Ensure to validate the token before submitting */}
         <h2>{isLogin ? 'Login' : 'Signup'}</h2>
         {!isLogin && (
           <div className="input-container">
             <label htmlFor="name"></label>
             <input type="text" placeholder='Name' id="name" required />
             <img 
-              src={require('../assets/profile.svg').default} 
+              src={profileIcon} 
               alt="Profile Icon" 
               className="email-icon" 
             />
@@ -124,7 +161,7 @@ const Auth = () => {
           <label htmlFor="email"></label>
           <input type="email" placeholder='Email' id="email" required />
           <img 
-            src={require('../assets/email.svg').default} 
+            src={emailIcon} 
             alt="Email Icon" 
             className="email-icon" 
           />
@@ -166,7 +203,8 @@ const Auth = () => {
 
         {errorMessage && <p className="error-message">{errorMessage}</p>} {/* Display error message */}
         <button className='submit' type="submit">{isLogin ? 'Login' : 'Signup'}</button>
-        <Link to="/forgot-password" >Forgot Password?</Link> {/* Updated link to point to Forgetpassword.jsx */}
+        <Link to="/forgot-password" >Forgot Password?</Link> {/* Ensure this matches the correct route */}
+        {successMessage && <p className="success-message" style={{ color: 'green' }}>{successMessage}</p>} {/* Display success message in green */}
       </form>
       <p>
         Don't have an account?{' '}
