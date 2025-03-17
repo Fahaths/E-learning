@@ -2,7 +2,7 @@ import React from 'react';
 import './App.css';
 import Header from './components/Header';
 import Footer from './components/Footer'; 
-import StudentDashboard from './components/Studentdashboard';
+import Dashboard from './components/Dashboard';
 import Home from './pages/Home';
 import About from './pages/About';
 import Courses from './pages/Courses'; 
@@ -23,9 +23,8 @@ function App() {
         <Route path="/courses" element={<Courses />} />
         <Route path="/Auth" element={<Auth />} /> {/* Adding route for Login */}
         <Route path="/forgot-password" element={<ForgotPassword />} />
-        <Route path="/studentdashboard" element={<StudentDashboard />} />
-
-        
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/login" element={<Auth />} /> {/* Define the /login route */}
       </Routes>
       <br />
       <br /><br />

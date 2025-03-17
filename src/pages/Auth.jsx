@@ -41,7 +41,7 @@ const Auth = () => {
     }
 
     try {
-      const response = await fetch('https://testlms.measiit.edu.in/api/token/validate', { // Corrected endpoint
+      const response = await fetch('https://testlms.measiit.edu.in/wp-json/jwt-auth/v1/token/validate', { // Corrected endpoint
         method: 'POST', // Ensure method matches backend
         headers: {
           'Content-Type': 'application/json',
@@ -58,6 +58,34 @@ const Auth = () => {
       }
     } catch (error) {
       setErrorMessage('An error occurred while validating the token.');
+    }
+  };
+
+  const fetchEnrolledCourses = async () => {
+    const token = localStorage.getItem('jwt_token');
+    if (!token) {
+      setErrorMessage('No token found. Please log in again.');
+      return;
+    }
+  
+    try {
+      const response = await fetch('https://testlms.measiit.edu.in/wp-json/custom/v1/enrolled-courses', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+      });
+  
+      if (response.ok) {
+        const data = await response.json();
+        console.log('Enrolled courses:', data); // Log or handle the enrolled courses as needed
+      } else {
+        const errorData = await response.json();
+        setErrorMessage(errorData.message || 'Failed to fetch enrolled courses.');
+      }
+    } catch (error) {
+      setErrorMessage('An error occurred while fetching enrolled courses.');
     }
   };
 
@@ -86,7 +114,7 @@ const Auth = () => {
 
       // Signup request
       try {
-        const response = await fetch('https://testlms.measiit.edu.in/wp-json/custom/v1/register', { // Corrected endpoint
+        const response = await fetch('https://testlms.measiit.edu.in/wp-json/wp/v2/users/register', { // Corrected endpoint
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -96,16 +124,16 @@ const Auth = () => {
 
         if (!response.ok) {
           const errorData = await response.json();
-          setErrorMessage(errorData.message || 'Signup failed');
+          setErrorMessage(errorData.message || 'Signup failed. Please ensure the username and email are unique.');
           console.error('Signup error:', errorData);
           return;
         }
 
         const data = await response.json();
-        setSuccessMessage('Signup successful! Please log in.');
+        setSuccessMessage('Signup successful! Please log in with your credentials.');
         console.log('Signup successful:', data);
       } catch (error) {
-        setErrorMessage('Network error occurred during signup');
+        setErrorMessage('A network error occurred during signup. Please try again later.');
         console.error('Signup network error:', error);
       }
     } else {
@@ -122,20 +150,17 @@ const Auth = () => {
           body: JSON.stringify({ username, password }),
         });
 
-        if (!response.ok) {
+        if (response.ok) {
+          const data = await response.json();
+          localStorage.setItem('jwt_token', data.token); // Store the JWT token in local storage
+          setSuccessMessage('Login successful! Redirecting to your dashboard...');
+          fetchEnrolledCourses(); // Fetch enrolled courses after login
+        } else {
           const errorData = await response.json();
-          setErrorMessage(errorData.message || 'Login failed');
-          console.error('Login error:', errorData);
-          return;
+          setErrorMessage(errorData.message || 'Login failed. Please check your credentials.');
         }
-
-        const data = await response.json();
-        localStorage.setItem('jwt_token', data.token); // Store the JWT token in local storage
-        setSuccessMessage('Login successful!');
-        console.log('Login successful:', data);
       } catch (error) {
-        setErrorMessage('Network error occurred during login');
-        console.error('Login network error:', error);
+        setErrorMessage('A network error occurred during login. Please try again later.');
       }
     }
   };

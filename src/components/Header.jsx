@@ -8,6 +8,7 @@ function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSearchBarVisible, setIsSearchBarVisible] = useState(false); // State for search bar visibility
   const [searchTerm, setSearchTerm] = useState(''); // State for search term
+  const isLoggedIn = !!localStorage.getItem('jwt_token'); // Check if the user is logged in
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -30,8 +31,10 @@ function Header() {
             <li><Link to="/">Home</Link></li>
             <li><Link to="/courses">Courses</Link></li>
             <li><Link to="/auth">Login/Signup</Link></li>
-            <li><Link to="/studentdashboard">Dashboard</Link></li>
-
+            
+            {isLoggedIn && (
+              <li><Link to="/dashboard" className="dashboard-button">Dashboard</Link></li>
+            )}
           </ul>
         </nav>
 
@@ -49,13 +52,27 @@ function Header() {
             <ul>
               <li><Link to="/" onClick={() => setIsMenuOpen(false)}>Home</Link></li>
               <li><Link to="/courses" onClick={() => setIsMenuOpen(false)}>Courses</Link></li>
-              <li><Link to="/auth" onClick={() => setIsMenuOpen(false)}>Login/Signup</Link></li>            
+              <li><Link to="/auth" onClick={() => setIsMenuOpen(false)}>Login/Signup</Link></li>  
+              {isLoggedIn && (
+              <li><Link to="/dashboard" className="dashboard-button">Dashboard</Link></li>
+              )}
             </ul>
+            {/* Search Bar */}
+            <div className="search-bar-container">
+              
+              {isSearchBarVisible && (
+                <input
+                  type="text"
+                  className="search-bar"
+                  placeholder="Search..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                />
+              )}
+            </div>
           </nav>
         </div>
       </div>
-
-     
     </header>
   );
 }
