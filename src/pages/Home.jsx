@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import './Search.css'; // Import the new CSS for search input
-
 import Auth from './Auth'; // Import the Auth component
 
 import { Link } from 'react-router-dom';
@@ -13,7 +11,6 @@ function Home() {
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [searchTerm, setSearchTerm] = useState(''); // Ensure searchTerm is defined
 
   useEffect(() => {
     const fetchCourses = async () => {
@@ -41,40 +38,21 @@ function Home() {
 
   return (
     <div>
-      <h1 className='heading' style={{ textAlign: 'center', marginBottom: '5px' }}>Welcome to Measi E-learning Website</h1>
-      <div className="search-container">
-        <input 
-          type="text" 
-          placeholder="Search courses..." 
-          value={searchTerm} 
-          onChange={(e) => setSearchTerm(e.target.value)} 
-          className="search-input"
-          style={{  marginBottom: '10rem' }}
-        />
-        
-      </div>
-
+          
+      
+      <h1 className='heading'>Welcome to Measi E-learning Website</h1>
+      
       <div className="courses-container">
         <h2>Featured Courses</h2>
        
-{loading && (
-    <div className="loading-spinner">
-      <span className="visually-hidden">Loading...</span>
-    </div>
-)}
-
-
-
+        {loading && <div className="loading-spinner">Loading courses...</div>}
         {error && <div className="error-message">{error}</div>}
         {!loading && !error && (
           <ul className="courses-list">
-            {courses.filter(course => 
-              course.title.rendered.toLowerCase().includes(searchTerm.toLowerCase())
-            ).map(course => (
-
+            {courses.map(course => (
               <li key={course.id} className="course-card">
                 <div className="course-media react-course">
-                  {course.video_url ? ( 
+                  {course.video_url ? (
                     <ReactPlayer
                       url={course.video_url}
                       controls
@@ -82,14 +60,17 @@ function Home() {
                       height="auto"
                       className="course-video"
                     />
+                  ) : course.featured_media_url ? (
+                    <img src={course.featured_media_url} alt={course.title.rendered || 'Course'} />
                   ) : (
                     <img 
-                      src={course.featured_media_url || "/images/course-placeholder.jpg"} 
-                      alt={course.title.rendered || 'Course'} 
+                      src="/images/course-placeholder.jpg" 
+                      alt="Course placeholder" 
                       className="placeholder-image"
                     />
                   )}
                 </div>
+                
                 <div className="course-content">
                   <h2>{course.title.rendered || 'No title available'}</h2>
                   {course.content.rendered ? (
@@ -106,8 +87,10 @@ function Home() {
           </ul>
         )}
       </div>
+      
     </div>
   );
+  
 }
 
 export default Home;
