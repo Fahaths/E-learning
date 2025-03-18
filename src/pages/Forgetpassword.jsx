@@ -1,20 +1,27 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import './Forgetpassword.css';
+import axios from 'axios';
 
 function ForgotPassword() {
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Placeholder for password reset logic
-    console.log('Reset password for:', email);
-    setMessage('If an account with that email exists, a password reset link will be sent.');
-  };
+    try {
+        const response = await axios.post('https://yourwordpresssite.com/wp-json/custom/v1/forgot-password', { email });
+        setMessage(response.data.message);
+    } catch (error) {
+        setMessage(error.response?.data?.message || 'An error occurred.');
+    }
+};
 
   return (
-    <div>
+    <div className="forget-password-container">
       <h1>Forgot Password</h1>
+      <p>Please enter your email address to receive a verification link.</p>
+
       <form onSubmit={handleSubmit}>
         <input 
           type="email" 
@@ -22,10 +29,10 @@ function ForgotPassword() {
           value={email} 
           onChange={(e) => setEmail(e.target.value)} 
         /> <br />
-        <button type="submit">Reset Password</button>
+        <button type="submit">Send Verification Email</button>
       </form>
       {message && <p>{message}</p>}
-      <Link to="/login">Back to Login</Link>
+      <Link to="/Auth" className="authlink">Back to Login</Link>
     </div>
   );
 }
