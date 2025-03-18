@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import DOMPurify from 'dompurify';
+import DOMPurify from 'dompurify';  
 import axios from 'axios';
 import ReactPlayer from 'react-player';
 import { Link } from 'react-router-dom';
