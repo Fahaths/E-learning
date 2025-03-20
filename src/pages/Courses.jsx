@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback, useRef } from 'react';
 import PropTypes from 'prop-types';
 import DOMPurify from 'dompurify';
 import axios from 'axios';
@@ -6,14 +6,13 @@ import ReactPlayer from 'react-player';
 import { Link } from 'react-router-dom';
 import './Courses.css';
 
-
-
 function Courses() {
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [searchTerm, setSearchTerm] = useState(''); // State for search term
-  const [selectedSort, setSelectedSort] = useState('newest'); // State for sorting option
+  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedSort, setSelectedSort] = useState('newest');
+  const debounceTimeout = useRef(null);
 
   useEffect(() => {
     const fetchCourses = async () => {
@@ -44,20 +43,16 @@ function Courses() {
       return new Date(b.date) - new Date(a.date);
     } else if (selectedSort === 'oldest') {
       return new Date(a.date) - new Date(b.date);
-
     } else if (selectedSort === 'title-asc') {
       return a.title.rendered.localeCompare(b.title.rendered);
     } else if (selectedSort === 'title-desc') {
       return b.title.rendered.localeCompare(a.title.rendered);
     }
-    return 0; // Default case
+    return 0;
   });
 
   return (
     <div className="courses-container">
-      
-
-
       <h1>All Courses</h1>
       <select 
         value={selectedSort}
@@ -72,12 +67,17 @@ function Courses() {
       <input 
         type="text" 
         placeholder="Search courses..." 
-        onChange={(e) => setSearchTerm(e.target.value)} 
+        onChange={(e) => {
+          setSearchTerm(e.target.value);
+          clearTimeout(debounceTimeout.current);
+          debounceTimeout.current = setTimeout(() => {
+            setSearchTerm(e.target.value);
+          }, 300);
+        }} 
         className="search-bar"
       />
 
       {loading && <div className="loading-spinner">Loading courses...</div>}
-      
       {error && <div className="error-message">{error}</div>}
       
       {!loading && !error && (
@@ -96,12 +96,14 @@ function Courses() {
                       height="auto"
                       className="course-video"
                       onError={(e) => console.error('Video player error:', e)}
+                      loading="lazy"
                     />
                   </div>
                 ) : course.featured_media_url ? (
                   <img 
                     src={`https://testlms.measiit.edu.in/wp-json/wp/v2/media/${course.featured_media}`}
                     alt={course.title.rendered || 'Course thumbnail'}
+                    loading="lazy"
                     onError={(e) => {
                       e.target.src = '/images/course-placeholder.jpg';
                       e.target.alt = 'Course placeholder';
@@ -114,9 +116,7 @@ function Courses() {
                     }}
                   />
                 ) : (
-                    <a href={`https://testlms.measiit.edu.in/courses/${course.slug}`} rel="noopener noreferrer" onClick={() => console.log(course.slug)}>
-
-
+                  <a href={`https://testlms.measiit.edu.in/courses/${course.slug}`} rel="noopener noreferrer" onClick={() => console.log(course.slug)}>
                     <img 
                       src="/images/course-placeholder.jpg" 
                       alt="Course placeholder" 
@@ -158,7 +158,7 @@ Courses.propTypes = {
       }),
       video_url: PropTypes.string,
       featured_media_url: PropTypes.string,
-      slug: PropTypes.string // Added slug for public URL
+      slug: PropTypes.string
     })
   )
 };

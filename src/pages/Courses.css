@@ -1,223 +1,60 @@
-:root {
-  --max-width: 1200px;
-  --spacing: 20px;
-  --border-radius: 8px;
-  --shadow: 0 2px 4px rgba(0,0,0,0.1);
-  --color-primary: #801515;
-  --color-text: #333;
-  --color-text-light: #666;
-  --color-error: #cc0000;
-  --color-error-bg: #ffe6e6;
-}
-
-/* Container Styles */
 .courses-container {
-  max-width: var(--max-width);
-  margin: 0 auto;
-  padding: var(--spacing);
+  padding: 20px;
+  background-color: #f9f9f9;
 }
 
-.heading {
-  text-align: center; /* Center the text */
-  font-weight: bold;  /* Make the text bold */
-  display: block;     /* Ensure it takes up the full width */
-  line-height: 1.5;   /* Adjust line height for better spacing */
-  margin: 15rem;          /* Remove default margin */
- 
-}
-
-
-/* Course List Styles */
-.course-content {
-  text-decoration: none; /* Remove underline */
-}
-
-.courses-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: var(--spacing);
-  padding: 0;
-  list-style: none;
-}
-
-/* Course Card Styles */
-.course-card {
-  background: #fff;
-  border-radius: var(--border-radius);
-  box-shadow: var(--shadow);
-  overflow: hidden;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.course-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-}
-
-/* Media Styles */
-.course-media {
-  position: relative;
-  padding-top: 56.25%; /* 16:9 aspect ratio */
-  background: #f0f0f0;
-}
-
-.course-media img,
-.course-video {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: opacity 0.3s ease;
-}
-
-.course-media img:hover,
-.course-video:hover {
-  opacity: 0.9;
-}
-
-/* Content Styles */
-.course-content {
-  padding: var(--spacing);
-}
-
-.course-content h2 {
-  margin: 0 0 10px;
-  font-size: 1.25rem;
-  color: var(--color-text);
-}
-
-.course-description {
-  font-size: 0.9rem;
-  line-height: 1.5;
-  color: var(--color-text-light);
-}
-
-/* State Styles */
-.loading-spinner {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 200px;
-  font-size: 1.2rem;
-  color: var(--color-text-light);
-}
-
-.error-message {
-  padding: var(--spacing);
-  background: var(--color-error-bg);
-  border: 1px solid var(--color-error);
-  border-radius: var(--border-radius);
-  color: var(--color-error);
-  text-align: center;
-}
-
-.placeholder-image {
-  background: #f0f0f0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--color-text-light);
-}
-
-/* Container for the search bar and sort dropdown */
-.search-sort-container {
-  display: flex;
-  align-items: center;
-  gap: 15px; /* Space between the dropdown and search bar */
+h1 {
+  font-size: 2rem;
   margin-bottom: 20px;
 }
 
-/* Style for the sort dropdown */
 .sort-dropdown {
-  padding: 10px 25px;
-  font-size: 14px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  background-color: #f9f9f9;
-  color: #333;
-  cursor: pointer;
-  appearance: none; /* Remove default arrow */
-  -webkit-appearance: none; /* For Safari */
-  -moz-appearance: none; /* For Firefox */
-  background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%23333' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: left 10px center;
-  background-size: 12px;
+  margin-bottom: 20px;
 }
 
-/* Hover and focus states for the dropdown */
-.sort-dropdown:hover {
-  border-color: #999;
-}
-
-.sort-dropdown:focus {
-  outline: none;
-  border-color: var(--color-primary);
-  box-shadow: 0 0 5px var(--color-primary) ;
-}
-
-/* Style for the search bar */
 .search-bar {
-  padding: 10px 15px;
-  font-size: 14px;
+  margin-bottom: 20px;
+  padding: 10px;
+  width: 100%;
   border: 1px solid #ccc;
-  border-radius: 6px;
-  background-color: #f9f9f9;
-  color: #333;
-  flex-grow: 1; /* Allow the search bar to take up remaining space */
-  margin: 5px; /* Add margin of 5px */
-  text-align: left; /* Align text to the left */
+  border-radius: 4px;
 }
 
-.sort-dropdown {
-  padding: 10px 25px;
-  font-size: 14px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  background-color: #f9f9f9;
-  color: #333;
-  cursor: pointer;
-  appearance: none; /* Remove default arrow */
-  -webkit-appearance: none; /* For Safari */
-  -moz-appearance: none; /* For Firefox */
-  margin: 5px; /* Add margin of 5px */
-  text-align: left; /* Align text to the left */
+.loading-spinner {
+  text-align: center;
+  font-size: 1.5rem;
+  color: #007bff;
 }
 
-
-/* Placeholder text style */
-.search-bar::placeholder {
-  color: #999;
+.error-message {
+  color: red;
+  margin: 20px 0;
 }
 
-/* Hover and focus states for the search bar */
-.search-bar:hover {
-  border-color: #999;
+.courses-list {
+  list-style-type: none;
+  padding: 0;
 }
 
-.search-bar:focus {
-  outline: none;
-  border-color:var(--color-primary);
-  box-shadow: 0 0 5px var(--color-primary);
+.course-card {
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  padding: 15px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-/* Center header content in mobile view */
-@media (max-width: 768px) {
-  .heading {
-    text-align: center; /* Center the text */
-    margin: 5rem; /* Adjust margin for better spacing */
-  }
+.course-media {
+  margin-bottom: 10px;
+}
 
-  .search-bar{
-    width: 90%;
-    margin: 0 auto;
-  }
+.course-content {
+  padding: 10px 0;
+}
 
-  .sort-dropdown{
-    width: 100%;
-    margin: 5px auto;
-  }
-
+.placeholder-image {
+  width: 100%;
+  height: auto;
+  border-radius: 4px;
 }
