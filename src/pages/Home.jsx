@@ -51,19 +51,16 @@ function Home() {
           className="search-input"
           style={{  marginBottom: '10rem' }}
         />
-        
       </div>
 
       <div className="courses-container">
         <h2>Featured Courses</h2>
        
-{loading && (
-    <div className="loading-spinner">
-      <span className="visually-hidden">Loading...</span>
-    </div>
-)}
-
-
+        {loading && (
+          <div className="loading-spinner">
+            <span className="visually-hidden">Loading...</span>
+          </div>
+        )}
 
         {error && <div className="error-message">{error}</div>}
         {!loading && !error && (
@@ -71,36 +68,37 @@ function Home() {
             {courses.filter(course => 
               course.title.rendered.toLowerCase().includes(searchTerm.toLowerCase())
             ).map(course => (
-
               <li key={course.id} className="course-card">
-                <div className="course-media react-course">
-                  {course.video_url ? ( 
-                    <ReactPlayer
-                      url={course.video_url}
-                      controls
-                      width="100%"
-                      height="auto"
-                      className="course-video"
-                    />
-                  ) : (
-                    <img 
-                      src={course.featured_media_url || "/images/course-placeholder.jpg"} 
-                      alt={course.title.rendered || 'Course'} 
-                      className="placeholder-image"
-                    />
-                  )}
-                </div>
-                <div className="course-content">
-                  <h2>{course.title.rendered || 'No title available'}</h2>
-                  {course.content.rendered ? (
-                    <div 
-                      className="course-description"
-                      dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(course.content.rendered) }} 
-                    />
-                  ) : (
-                    <p>No content available</p>
-                  )}
-                </div>
+                <Link to={course.link}>
+                  <div className="course-media react-course">
+                    {course.video_url ? ( 
+                      <ReactPlayer
+                        url={course.video_url}
+                        controls
+                        width="100%"
+                        height="auto"
+                        className="course-video"
+                      />
+                    ) : (
+                      <img 
+                        src={course.featured_media_url || "/images/course-placeholder.jpg"} 
+                        alt={course.title.rendered || 'Course'} 
+                        className="placeholder-image"
+                      />
+                    )}
+                  </div>
+                  <div className="course-content">
+                    <h2>{course.title.rendered || 'No title available'}</h2>
+                    {course.content.rendered ? (
+                      <div 
+                        className="course-description"
+                        dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(course.content.rendered) }} 
+                      />
+                    ) : (
+                      <p>No content available</p>
+                    )}
+                  </div>
+                </Link>
               </li>
             ))}
           </ul>

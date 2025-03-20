@@ -28,6 +28,10 @@
 
 
 /* Course List Styles */
+.course-content {
+  text-decoration: none; /* Remove underline */
+}
+
 .courses-list {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
