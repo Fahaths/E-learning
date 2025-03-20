@@ -10,6 +10,8 @@ import './Courses.css';
 function Home() {
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [searchTerm, setSearchTerm] = useState('');
+
   const [error, setError] = useState(null);
 
   useEffect(() => {
@@ -39,8 +41,10 @@ function Home() {
   return (
     <div>
       <h1 className='heading' style={{ textAlign: 'center', marginBottom: '5px' }}>Welcome to Measi E-learning Website</h1>
-      <div className="search-container">
+      <div className="search-container" style={{ display: 'flex', justifyContent: 'center', marginBottom: '10rem' }}>
+
         <input 
+
           type="text" 
           placeholder="Search courses..." 
           value={searchTerm} 
@@ -70,6 +74,8 @@ function Home() {
             ).map(course => (
 
               <li key={course.id} className="course-card">
+                <Link to={course.link}>
+                
                 <div className="course-media react-course">
                   {course.video_url ? ( 
                     <ReactPlayer
@@ -98,6 +104,7 @@ function Home() {
                     <p>No content available</p>
                   )}
                 </div>
+                </Link>
               </li>
             ))}
           </ul>
