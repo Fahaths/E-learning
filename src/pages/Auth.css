@@ -1,10 +1,11 @@
 .auth-container {
-  max-width: 600px; /* Set a maximum width for the container */
-  margin: 10rem auto -5rem; /* Center the container */
-  padding: 20px; /* Add padding for spacing */
-  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1); /* Optional: Add shadow for better visibility */
-  border-radius: 8px; /* Optional: Add rounded corners */
-  background-color: #f9f9f9; /* Updated background color */
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
 }
 
 .auth-container h2 {
@@ -16,69 +17,15 @@
   flex-direction: column;
 }
 
-.auth-container .input-container {
-  position: relative; /* Position relative for the label */
-  margin-bottom: 15px; /* Space between input fields */
-}
-
-
-.auth-container .eye-icon {
-  position: absolute; /* Position the eye icon absolutely */
-  right: 10px; /* Align it to the right of the input */
-  top: 50%; /* Center it vertically */
-  transform: translateY(-50%); /* Adjust for vertical centering */
-  cursor: pointer; /* Change cursor to pointer on hover */
-  width: 20px; /* Set width of the eye icon */
-  height: 20px; /* Set height of the eye icon */
-}
-
-.auth-container .email-icon {
-  position: absolute; /* Position the email icon absolutely */
-  right: 10px; /* Align it to the right of the input */
-  top: 50%; /* Center it vertically */
-  transform: translateY(-50%); /* Adjust for vertical centering */
-  cursor: pointer; /* Change cursor to pointer on hover */
-  width: 20px; /* Set width of the email icon */
-  height: 20px; /* Set height of the email icon */
+.auth-container label {
+  margin-bottom: 5px;
 }
 
 .auth-container input {
+  margin-bottom: 15px;
   padding: 10px;
   border: 1px solid #ccc;
-  border-radius: 6px;
-  transition: border-color 0.3s ease; /* Add transition for border color */
-}
-
-.auth-container input:focus {
-  border-color: #801515; /* Change border color on focus */
-  box-shadow: 0 0 5px rgba(128, 21, 21, 0.5); /* Add box-shadow on focus */
-  outline: none; /* Remove outline on focus */
-}
-
-
-.auth-container input::placeholder {
-  color:  #aaa; /* Hide placeholder by default */
-}
-
-.auth-container input:focus::placeholder,
-.auth-container input:not(:placeholder-shown)::placeholder {
-  color: transparent; /* Hide placeholder on focus or if input is filled */
-}
-
-.auth-container label {
-  position: absolute;
-  left: 10px;
-  top: 10px;
-  color: #aaa; /* Default label color */
-  transition: all 0.3s ease; /* Smooth transition for label */
-}
-
-.auth-container input:focus + label,
-.auth-container input:not(:placeholder-shown) + label {
-  top: -10px; /* Move label above input */
-  left: 10px; /* Keep label aligned */
-  font-size: 12px; /* Reduce font size */
-  color: #801515; /* Change label color on focus */
+  border-radius: 4px;
 }
 
 .auth-container button {
@@ -86,47 +33,10 @@
   background-color: #801515;
   color: white;
   border: none;
-  border-radius: 6px;
+  border-radius: 4px;
   cursor: pointer;
-  transition: background-color 0.3s ease; /* Add transition for button */
 }
 
 .auth-container button:hover {
-  background-color: #a02020; /* Ensure hover state is defined */
-}
-
-.error-message {
-  color: red; /* Set the text color for the error message */
-  text-align: center; /* Center the text */
-  margin: 0 auto;
-  margin-top: 10px; /* Add some space above the error message */
-  font-size: 1.1rem; /* Increase font size for error message */
-  background-color: #ffe6e6; /* Add background color for error message */
-  padding: 10px; /* Add padding for error message */
-}
-
-.auth-container input, .auth-container .submit {
-  width: 96%; /* Set width of input fields and submit button */
-  max-width: 100%; /* Ensure it does not exceed container width */
-  margin: 1rem 0; /* Add margin for spacing */
-}
-
-/* Separate media query for mobile responsiveness */
-@media (max-width: 600px) {
-  .auth-container {
-    max-width: 100%; /* Set a maximum width for the container */
-    margin: 5rem 3rem; /* Center the container */
-    padding: 15px; /* Adjust padding for smaller screens */
-  }
-
-  .auth-container h2 {
-    font-size: 1.5rem; /* Adjust font size for the heading */
-  }
-
-  .auth-container input, .auth-container .submit {
-    width: 100%;
-    padding: 10px;
-    margin: 8px 0;
-    box-sizing: border-box;
-  }
+  background-color: #a02020;
 }
