@@ -5,6 +5,8 @@ import axios from 'axios';
 import ReactPlayer from 'react-player';
 import DOMPurify from 'dompurify';
 import './Courses.css';
+import './Search.css';
+
 
 function Home() {
   const [courses, setCourses] = useState([]);
