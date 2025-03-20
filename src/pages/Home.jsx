@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import Auth from './Auth'; // Import the Auth component
-
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import ReactPlayer from 'react-player';
@@ -10,8 +9,7 @@ import './Courses.css';
 function Home() {
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [searchTerm, setSearchTerm] = useState('');
-
+  const [searchTerm, setSearchTerm] = useState(''); // Added state for search term
   const [error, setError] = useState(null);
 
   useEffect(() => {
@@ -41,10 +39,8 @@ function Home() {
   return (
     <div>
       <h1 className='heading' style={{ textAlign: 'center', marginBottom: '5px' }}>Welcome to Measi E-learning Website</h1>
-      <div className="search-container" style={{ display: 'flex', justifyContent: 'center', marginBottom: '10rem' }}>
-
+      <div className="search-container">
         <input 
-
           type="text" 
           placeholder="Search courses..." 
           value={searchTerm} 
@@ -52,19 +48,16 @@ function Home() {
           className="search-input"
           style={{  marginBottom: '10rem' }}
         />
-        
       </div>
 
       <div className="courses-container">
         <h2>Featured Courses</h2>
        
-{loading && (
-    <div className="loading-spinner">
-      <span className="visually-hidden">Loading...</span>
-    </div>
-)}
-
-
+        {loading && (
+          <div className="loading-spinner">
+            <span className="visually-hidden">Loading...</span>
+          </div>
+        )}
 
         {error && <div className="error-message">{error}</div>}
         {!loading && !error && (
@@ -72,10 +65,7 @@ function Home() {
             {courses.filter(course => 
               course.title.rendered.toLowerCase().includes(searchTerm.toLowerCase())
             ).map(course => (
-
               <li key={course.id} className="course-card">
-                <Link to={course.link}>
-                
                 <div className="course-media react-course">
                   {course.video_url ? ( 
                     <ReactPlayer
@@ -104,16 +94,13 @@ function Home() {
                     <p>No content available</p>
                   )}
                 </div>
-                </Link>
               </li>
             ))}
           </ul>
         )}
       </div>
-      
     </div>
   );
-  
 }
 
 export default Home;

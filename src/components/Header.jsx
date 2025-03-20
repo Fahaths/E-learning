@@ -29,15 +29,13 @@ function Header() {
           <ul>
             <li><Link to="/">Home</Link></li>
             <li><Link to="/courses">Courses</Link></li>
-            <li><Link to="/auth">Login/Signup</Link></li>
+            <li><Link to="/auth">Login/Signup</Link></li> {/* Updated case here */}
             <li><Link to="/studentdashboard">Dashboard</Link></li>
-
           </ul>
         </nav>
 
         {/* Mobile Navigation */}
         <div className="mobile-nav">
-          
           <button className="hamburger" onClick={toggleMenu}>
             <span></span>
             <span></span>
@@ -49,13 +47,11 @@ function Header() {
             <ul>
               <li><Link to="/" onClick={() => setIsMenuOpen(false)}>Home</Link></li>
               <li><Link to="/courses" onClick={() => setIsMenuOpen(false)}>Courses</Link></li>
-              <li><Link to="/auth" onClick={() => setIsMenuOpen(false)}>Login/Signup</Link></li>            
+              <li><Link to="/auth" onClick={() => setIsMenuOpen(false)}>Login/Signup</Link></li> {/* Updated case here */}
             </ul>
           </nav>
         </div>
       </div>
-
-     
     </header>
   );
 }
