@@ -10,7 +10,8 @@ function ForgotPassword() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-        const response = await axios.post('https://yourwordpresssite.com/wp-json/custom/v1/forgot-password', { email });
+        const response = await axios.post('https://testlms.measiit.edu.in/wp-json/custom/v1/forgot-password', { email });
+
         setMessage(response.data.message);
     } catch (error) {
         setMessage(error.response?.data?.message || 'An error occurred.');

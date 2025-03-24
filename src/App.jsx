@@ -19,7 +19,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/courses" element={<Courses />} />
-        <Route path="/Auth" element={<Auth />} /> {/* Adding route for Login */}
+        <Route path="/auth" element={<Auth />} /> 
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/studentdashboard" element={<Dashboard />} />
 
