@@ -1,42 +1,25 @@
-import React from 'react'; 
-import './App.css';
-import Header from './components/Header';
-import Footer from './components/Footer'; 
-import StudentDashboard from './components/Studentdashboard';
-import Home from './pages/Home';
-import About from './pages/About';
-import Courses from './pages/Courses'; 
-import Posts from './components/posts';
-import  Assingment from './pages/Assingment'; // Importing the Assignment component
-import Auth from './pages/Auth';
-import ForgotPassword from './pages/Forgetpassword'; // Importing the Forgot Password component
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import React, { useState } from 'react';
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
+import Login from './components/Login';
+import Signup from './components/Signup';
+import Dashboard from './components/dashboard';
+import Profile from './components/Profile';
 
 function App() {
+  
+
   return (
     <Router>
-     
-      <Header />
-    
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/courses" element={<Courses />} />
-        <Route path="/Auth" element={<Auth />} /> {/* Adding route for Login */}
-        <Route path="/forgot-password" element={<ForgotPassword />} />
-        <Route path="/studentdashboard" element={<StudentDashboard />} />
-
+        
+          
+        
+          <Route path="profile" element={<Profile />} />
+          
+       
+        <Route path="/" element={<Navigate to="/dashboard" />} />
         
       </Routes>
-      <br />
-      <br /><br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <Footer />
     </Router>
   );
 }
