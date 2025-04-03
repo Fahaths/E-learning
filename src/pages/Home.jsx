@@ -7,7 +7,6 @@ import DOMPurify from 'dompurify';
 import './Courses.css';
 import './Search.css';
 
-
 function Home() {
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -70,19 +69,41 @@ function Home() {
               <li key={course.id} className="course-card">
                 <div className="course-media react-course">
                   {course.video_url ? ( 
-                    <ReactPlayer
-                      url={course.video_url}
-                      controls
-                      width="100%"
-                      height="auto"
-                      className="course-video"
+                    <div className="video-wrapper">
+                      <ReactPlayer
+                        url={course.video_url}
+                        controls
+                        width="100%"
+                        height="auto"
+                        className="course-video"
+                        onError={(e) => console.error('Video player error:', e)}
+                        loading="lazy"
+                      />
+                    </div>
+                  ) : course.featured_media_url ? (
+                    <img 
+                      src={`https://testlms.measiit.edu.in/wp-json/wp/v2/media/${course.featured_media}`}
+                      alt={course.title.rendered || 'Course thumbnail'}
+                      loading="lazy"
+                      onError={(e) => {
+                        e.target.src = '/images/course-placeholder.jpg';
+                        e.target.alt = 'Course placeholder';
+                      }}
+                      onLoad={(e) => {
+                        const img = e.target;
+                        if (img.naturalWidth > 300) {
+                          img.src = img.src.replace(/-\d+x\d+\./, '-300x169.');
+                        }
+                      }}
                     />
                   ) : (
-                    <img 
-                      src={course.featured_media_url || "/images/course-placeholder.jpg"} 
-                      alt={course.title.rendered || 'Course'} 
-                      className="placeholder-image"
-                    />
+                    <a href={`https://testlms.measiit.edu.in/courses/${course.slug}`} rel="noopener noreferrer" onClick={() => console.log(course.slug)}>
+                      <img 
+                        src="/images/course-placeholder.jpg" 
+                        alt="Course placeholder" 
+                        className="placeholder-image"
+                      />
+                    </a>
                   )}
                 </div>
                 <div className="course-content">

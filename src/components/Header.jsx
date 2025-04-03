@@ -30,7 +30,8 @@ function Header() {
             <li><Link to="/">Home</Link></li>
             <li><Link to="/courses">Courses</Link></li>
             <li><Link to="/auth">Login/Signup</Link></li> {/* Updated case here */}
-            <li><a href="https://testlms.measiit.edu.in/dashboard/">Dashboard</a></li>
+            <li><Link to="/Dashboard">Dashboard</Link></li>
+
 
           </ul>
         </nav>
