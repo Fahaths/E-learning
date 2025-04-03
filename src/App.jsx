@@ -11,31 +11,27 @@ import Assingment from './pages/Assingment'; // Importing the Assignment compone
 import Auth from './pages/Auth';
 import ForgotPassword from './pages/Forgetpassword'; // Importing the Forgot Password component
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { AuthProvider } from './AuthContext'; // Import AuthProvider
 
 function App() {
   return (
-    <Router>
-      <Header />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/courses" element={<Courses />} />
-        <Route path="/auth" element={<Auth />} /> 
-        <Route path="/forgot-password" element={<ForgotPassword />} />
-        <Route path="/Dashboard" element={<Dashboard />} />
+    <AuthProvider> {/* Wrap the application with AuthProvider */}
+      <Router>
+        <Header />
+        <main>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/courses" element={<Courses />} />
+            <Route path="/auth" element={<Auth />} /> 
+            <Route path="/forgot-password" element={<ForgotPassword />} />
+            <Route path="/dashboard" element={<Dashboard />} />
+          </Routes>
+        </main>
+        <Footer />
+      </Router>
 
-      </Routes>
-      <br />
-      <br /><br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <Footer />
-    </Router>
-  );
+    </AuthProvider> // Close AuthProvider
+  ); // Correctly close the return statement
 }
 
 export default App;

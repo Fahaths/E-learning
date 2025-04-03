@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
+import { useAuth } from '../AuthContext'; // Import useAuth from AuthContext
+import { Link, useNavigate } from 'react-router-dom'; // Ensure useNavigate is imported
+
 import './Auth.css'; // Assuming you want to style this component separately
-import { Link } from 'react-router-dom'; // Added import for Link
 
 import eyeOpenIcon from '../assets/eyeopen.svg'; // Import the eye open icon
 import eyeClosedIcon from '../assets/eye-closed.svg'; // Import the eye closed icon
@@ -14,6 +16,9 @@ const Auth = () => {
 
   const [isPasswordVisible, setIsPasswordVisible] = useState(false); // State for password visibility
   const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] = useState(false); // State for confirm password visibility
+
+  const { login, register } = useAuth(); // Get login and register functions from AuthContext
+  const navigate = useNavigate(); // Initialize useNavigate
 
   const togglePasswordVisibility = () => {
     setIsPasswordVisible((prev) => !prev); // Toggle password visibility
@@ -33,38 +38,13 @@ const Auth = () => {
     return re.test(String(email).toLowerCase());
   };
 
-  const validateToken = async () => {
-    const token = localStorage.getItem('jwt_token');
-    if (!token) {
-      setErrorMessage('No token found. Please log in again.');
-      return;
-    }
-
-    try {
-      const response = await fetch('https://testlms.measiit.edu.in/api/token/validate', { // Corrected endpoint
-        method: 'POST', // Ensure method matches backend
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        console.log('Token is valid:', data);
-      } else {
-        const errorData = await response.json();
-        setErrorMessage(errorData.message || 'Token validation failed.');
-      }
-    } catch (error) {
-      setErrorMessage('An error occurred while validating the token.');
-    }
-  };
-
   const handleSubmit = async (event) => {
     event.preventDefault();
 
     const emailInput = document.getElementById('email').value;
+    const password = document.getElementById('password').value; // Define password here
+    const username = emailInput; // Use emailInput directly
+
     if (!isValidEmail(emailInput)) {
       setErrorMessage('Please enter a valid email address');
       return;
@@ -74,9 +54,7 @@ const Auth = () => {
     setSuccessMessage(''); // Reset success message
 
     if (!isLogin) {
-      const username = document.getElementById('email').value; // Assuming email is used as username
       const nameInput = document.getElementById('name').value; // Get the name input
-      const password = document.getElementById('password').value;
       const confirmPassword = document.getElementById('confirmPassword').value;
 
       if (password !== confirmPassword) {
@@ -84,58 +62,19 @@ const Auth = () => {
         return;
       }
 
-      // Signup request
-      try {
-        const response = await fetch('https://testlms.measiit.edu.in/wp-json/custom/v1/register', { // Corrected endpoint
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ username, email: username, password, name: nameInput }),
-        });
-
-        if (!response.ok) {
-          const errorData = await response.json();
-          setErrorMessage(errorData.message || 'Signup failed');
-          console.error('Signup error:', errorData);
-          return;
-        }
-
-        const data = await response.json();
-        setSuccessMessage('Signup successful! Please log in.');
-        console.log('Signup successful:', data);
-      } catch (error) {
-        setErrorMessage('Network error occurred during signup');
-        console.error('Signup network error:', error);
+      const result = await register(username, emailInput, password); // Use register from AuthContext
+      if (result.success) {
+        setSuccessMessage('Signup successful! Please log in.'); // Display success message
+      } else {
+        setErrorMessage(result.message); // Set error message on failure
       }
+
     } else {
-      // Login request
-      const username = document.getElementById('email').value;
-      const password = document.getElementById('password').value;
-
-      try {
-        const response = await fetch('https://testlms.measiit.edu.in/wp-json/jwt-auth/v1/token', { // Corrected endpoint
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ username, password }),
-        });
-
-        if (!response.ok) {
-          const errorData = await response.json();
-          setErrorMessage(errorData.message || 'Login failed');
-          console.error('Login error:', errorData);
-          return;
-        }
-
-        const data = await response.json();
-        localStorage.setItem('jwt_token', data.token); // Store the JWT token in local storage
-        setSuccessMessage('Login successful!');
-        console.log('Login successful:', data);
-      } catch (error) {
-        setErrorMessage('Network error occurred during login');
-        console.error('Login network error:', error);
+      const result = await login(username, password); // Use login from AuthContext
+      if (result.success) {
+        navigate('/dashboard'); // Redirect to dashboard on success
+      } else {
+        setErrorMessage(result.message); // Set error message on failure
       }
     }
   };
@@ -143,7 +82,6 @@ const Auth = () => {
   return (
     <div className="auth-container">
       <form onSubmit={handleSubmit}> 
-        {/* Ensure to validate the token before submitting */}
         <h2>{isLogin ? 'Login' : 'Signup'}</h2>
         {!isLogin && (
           <div className="input-container">

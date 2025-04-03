@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import { useAuth } from '../AuthContext'; // Import useAuth from AuthContext
+import axios from 'axios'; // Remove axios import
+
 
 
 function Login() {
@@ -10,10 +12,17 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('https://your-backend-api.com/login', { email, password });
-      // Handle successful login (e.g., store token, redirect)
+      const response = await axios.post('https://your-wordpress-site.com/wp-json/jwt-auth/v1/token', { username: email, password });
+
+      if (result.success) {
+        navigate('/dashboard'); // Redirect to dashboard on success
+      } else {
+        setError(result.message); // Set error message on failure
+
     } catch (err) {
-      setError('Login failed. Please check your credentials.');
+      setError('Login failed. Please check your credentials.'); // Handle error message
+      console.error('Login error:', err);
+
     }
   };
 
