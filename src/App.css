@@ -1,4 +1,4 @@
-.App {
+ax.App {
   text-align: center;
   max-width: 100%;
   overflow-x: hidden;
@@ -189,5 +189,194 @@ h1 {
 @media (max-width: 480px) {
   .App-logo {
     width: 60%;
+  }
+}
+
+/* Dashboard Styles */
+.dashboard-container {
+  display: flex;
+  min-height: 100vh;
+}
+
+.dashboard-sidebar {
+  width: 250px;
+  background: #2c3e50;
+  color: white;
+  padding: 20px;
+}
+
+.dashboard-sidebar h2 {
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.dashboard-sidebar nav ul {
+  list-style: none;
+  padding: 0;
+}
+
+.dashboard-sidebar nav li {
+  padding: 10px;
+  margin-bottom: 5px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.dashboard-sidebar nav li:hover {
+  background: #34495e;
+}
+
+.dashboard-sidebar nav li.active {
+  background: #3498db;
+}
+
+.dashboard-content {
+  flex: 1;
+  padding: 20px;
+  background: #f5f5f5;
+}
+
+/* Responsive dashboard */
+@media (max-width: 768px) {
+  .dashboard-container {
+    flex-direction: column;
+  }
+  
+  .dashboard-sidebar {
+    width: 100%;
+    padding: 10px;
+  }
+  
+  .dashboard-content {
+    padding: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .dashboard-sidebar nav li {
+    padding: 8px;
+    font-size: 0.9em;
+  }
+  
+  .dashboard-content {
+    padding: 10px;
+  }
+}
+
+/* Profile Styles */
+.profile-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.profile-content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.profile-info {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  padding: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.avatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: #e0e0e0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  color: #666;
+}
+
+.details p {
+  margin: 8px 0;
+  font-size: 1rem;
+}
+
+.profile-actions {
+  display: flex;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.btn-primary {
+  background: #3498db;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.btn-secondary {
+  background: #f5f5f5;
+  color: #333;
+  border: 1px solid #ddd;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+/* Responsive profile */
+@media (max-width: 768px) {
+  .profile-info {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .profile-actions {
+    justify-content: center;
+  }
+}
+
+/* Wishlist Styles */
+.wishlist-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.wishlist-items {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.wishlist-item {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.wishlist-item h3 {
+  margin-top: 0;
+  color: #2c3e50;
+}
+
+.wishlist-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+/* Responsive wishlist */
+@media (max-width: 768px) {
+  .wishlist-items {
+    grid-template-columns: 1fr;
+  }
+  
+  .wishlist-actions {
+    flex-direction: column;
   }
 }

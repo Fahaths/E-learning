@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import Auth from './Auth'; // Import the Auth component
-
+import React, { useEffect, useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
+import Dashboard from './dashboard';
 import axios from 'axios';
 import ReactPlayer from 'react-player';
 import DOMPurify from 'dompurify';
@@ -11,6 +11,7 @@ function Home() {
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const { currentUser } = useAuth();
 
   useEffect(() => {
     const fetchCourses = async () => {
@@ -37,60 +38,105 @@ function Home() {
   }, []);
 
   return (
-    <div>
-          
-      
+    <div className="home-container">
       <h1 className='heading'>Welcome to Measi E-learning Website</h1>
       
-      <div className="courses-container">
-        <h2>Featured Courses</h2>
-       
-        {loading && <div className="loading-spinner">Loading courses...</div>}
-        {error && <div className="error-message">{error}</div>}
-        {!loading && !error && (
-          <ul className="courses-list">
-            {courses.map(course => (
-              <li key={course.id} className="course-card">
-                <div className="course-media react-course">
-                  {course.video_url ? (
-                    <ReactPlayer
-                      url={course.video_url}
-                      controls
-                      width="100%"
-                      height="auto"
-                      className="course-video"
-                    />
-                  ) : course.featured_media_url ? (
-                    <img src={course.featured_media_url} alt={course.title.rendered || 'Course'} />
-                  ) : (
-                    <img 
-                      src="/images/course-placeholder.jpg" 
-                      alt="Course placeholder" 
-                      className="placeholder-image"
-                    />
-                  )}
-                </div>
-                
-                <div className="course-content">
-                  <h2>{course.title.rendered || 'No title available'}</h2>
-                  {course.content.rendered ? (
-                    <div 
-                      className="course-description"
-                      dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(course.content.rendered) }} 
-                    />
-                  ) : (
-                    <p>No content available</p>
-                  )}
-                </div>
-              </li>
-            ))}
-          </ul>
-        )}
-      </div>
-      
+      {currentUser ? (
+        <div className="dashboard-layout">
+          <Dashboard />
+          <div className="courses-container">
+            <h2>Featured Courses</h2>
+            {loading && <div className="loading-spinner">Loading courses...</div>}
+            {error && <div className="error-message">{error}</div>}
+            {!loading && !error && (
+              <ul className="courses-list">
+                {courses.map(course => (
+                  <li key={course.id} className="course-card">
+                    <div className="course-media react-course">
+                      {course.video_url ? (
+                        <ReactPlayer
+                          url={course.video_url}
+                          controls
+                          width="100%"
+                          height="auto"
+                          className="course-video"
+                        />
+                      ) : course.featured_media_url ? (
+                        <img src={course.featured_media_url} alt={course.title.rendered || 'Course'} />
+                      ) : (
+                        <img 
+                          src="/images/course-placeholder.jpg" 
+                          alt="Course placeholder" 
+                          className="placeholder-image"
+                        />
+                      )}
+                    </div>
+                    
+                    <div className="course-content">
+                      <h2>{course.title.rendered || 'No title available'}</h2>
+                      {course.content.rendered ? (
+                        <div 
+                          className="course-description"
+                          dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(course.content.rendered) }} 
+                        />
+                      ) : (
+                        <p>No content available</p>
+                      )}
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+        </div>
+      ) : (
+        <div className="courses-container">
+          <h2>Featured Courses</h2>
+          {loading && <div className="loading-spinner">Loading courses...</div>}
+          {error && <div className="error-message">{error}</div>}
+          {!loading && !error && (
+            <ul className="courses-list">
+              {courses.map(course => (
+                <li key={course.id} className="course-card">
+                  <div className="course-media react-course">
+                    {course.video_url ? (
+                      <ReactPlayer
+                        url={course.video_url}
+                        controls
+                        width="100%"
+                        height="auto"
+                        className="course-video"
+                      />
+                    ) : course.featured_media_url ? (
+                      <img src={course.featured_media_url} alt={course.title.rendered || 'Course'} />
+                    ) : (
+                      <img 
+                        src="/images/course-placeholder.jpg" 
+                        alt="Course placeholder" 
+                        className="placeholder-image"
+                      />
+                    )}
+                  </div>
+                  
+                  <div className="course-content">
+                    <h2>{course.title.rendered || 'No title available'}</h2>
+                    {course.content.rendered ? (
+                      <div 
+                        className="course-description"
+                        dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(course.content.rendered) }} 
+                      />
+                    ) : (
+                      <p>No content available</p>
+                    )}
+                  </div>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+      )}
     </div>
   );
-  
 }
 
 export default Home;
