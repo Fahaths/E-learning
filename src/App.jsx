@@ -1,71 +1,58 @@
-<<<<<<< Updated upstream
-import React from 'react'; 
+import React, { useState } from 'react';
 import './App.css';
 import Header from './components/Header';
-import Footer from './components/Footer'; 
-import Dashboard from './components/Dashboard'; // Importing the Dashboard component
+import Footer from './components/Footer';
+import Dashboard from './components/dashboard';
 import Home from './pages/Home';
 import About from './pages/About';
-import Courses from './pages/Courses'; 
+import Courses from './pages/Courses';
 import Posts from './components/posts';
-import Assingment from './pages/Assingment'; // Importing the Assignment component
+import Assingment from './pages/Assingment';
 import Auth from './pages/Auth';
-import ForgotPassword from './pages/Forgetpassword'; // Importing the Forgot Password component
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import { AuthProvider } from './AuthContext'; // Import AuthProvider
-=======
-import React, { useState } from 'react';
-import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
-import Login from './components/Login';
-import Signup from './components/Signup';
-import Dashboard from './components/dashboard';
+import ForgotPassword from './pages/Forgetpassword';
 import Profile from './components/Profile';
->>>>>>> Stashed changes
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
+import { AuthProvider } from './AuthContext';
 
 function App() {
-  
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   return (
-<<<<<<< Updated upstream
-    <AuthProvider> {/* Wrap the application with AuthProvider */}
+    <AuthProvider>
       <Router>
         <Header />
         <main>
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/courses" element={<Courses />} />
-            <Route path="/auth" element={<Auth />} /> 
+            <Route path="/auth" element={<Auth />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
-            <Route path="/dashboard" element={<Dashboard />} />
+            <Route 
+              path="/dashboard" 
+              element={
+                isAuthenticated ? (
+                  <Dashboard setIsAuthenticated={setIsAuthenticated} />
+                ) : (
+                  <Navigate to="/auth" />
+                )
+              }
+            />
+            <Route 
+              path="/profile" 
+              element={
+                isAuthenticated ? (
+                  <Profile />
+                ) : (
+                  <Navigate to="/auth" />
+                )
+              }
+            />
           </Routes>
         </main>
         <Footer />
       </Router>
-
-    </AuthProvider> // Close AuthProvider
-  ); // Correctly close the return statement
-=======
-    <Router>
-      <Routes>
-        <Route>
-          path="/dashboard"
-          element={
-            isAuthenticated ? (
-              <Dashboard setIsAuthenticated={setIsAuthenticated} />
-            ) : (
-              <Navigate to="/login" />
-            )
-          }
-        
-          <Route path="profile" element={<Profile />} />
-          
-       
-        <Route path="/" element={<Navigate to="/dashboard" />} />
-        </Route>
-      </Routes>
-    </Router>
+    </AuthProvider>
   );
->>>>>>> Stashed changes
 }
 
 export default App;
