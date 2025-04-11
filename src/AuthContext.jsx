@@ -61,22 +61,26 @@ export function AuthProvider({ children }) {
 
   const register = async (username, email, password) => {
     try {
-const response = await fetch(`${API_URL}/wp/v2/users`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Basic ' + btoa('admin-user:admin-password') // For initial setup
-      },
-      body: JSON.stringify({ username, email, password })
-
-
-
-
-
+      const response = await api.post('/wp/v2/users', {
+        username,
+        email,
+        password
+      }, {
+        headers: {
+          'Authorization': 'Basic ' + btoa('admin-user:admin-password')
+        }
       });
 
-
-      return { success: true, data: response.data };
+      if (response.data.id) {
+        return { 
+          success: true,
+          message: 'Registration successful. Please login.'
+        };
+      }
+      return { 
+        success: false, 
+        message: response.data?.message || 'Registration failed' 
+      };
     } catch (error) {
       return {
         success: false,
