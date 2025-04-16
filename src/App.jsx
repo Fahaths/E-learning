@@ -11,6 +11,15 @@ import Assingment from './pages/Assingment';
 import Auth from './pages/Auth';
 import ForgotPassword from './pages/Forgetpassword';
 import Profile from './components/Profile';
+import EnrolledCourses from './components/EnrolledCourses';
+import {
+  Wishlist,
+  Reviews,
+  QuizAttempts,
+  OrderHistory,
+  QnA,
+  Settings,
+} from './AppImports';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import { AuthProvider } from './AuthContext';
 
@@ -27,16 +36,16 @@ function App() {
             <Route path="/courses" element={<Courses />} />
             <Route path="/auth" element={<Auth />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
-            <Route 
-              path="/dashboard" 
-              element={
-                isAuthenticated ? (
-                  <Dashboard setIsAuthenticated={setIsAuthenticated} />
-                ) : (
-                  <Navigate to="/auth" />
-                )
-              }
-            />
+            <Route path="/dashboard" element={<Dashboard />}>
+              <Route path="profile" element={<Profile />} />
+              <Route path="enrolled-courses" element={<EnrolledCourses />} />
+              <Route path="wishlist" element={<Wishlist />} />
+              <Route path="reviews" element={<Reviews />} />
+              <Route path="quiz-attempts" element={<QuizAttempts />} />
+              <Route path="order-history" element={<OrderHistory />} />
+              <Route path="qna" element={<QnA />} />
+              <Route path="settings" element={<Settings />} />
+            </Route>
             <Route 
               path="/profile" 
               element={
