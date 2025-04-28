@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import './Dashboard.css';
+import { API_BASE_URL, MENU_ID } from '../config';
 
 const EnrolledCourses = () => {
   const [courses, setCourses] = useState([]);
@@ -7,11 +9,14 @@ const EnrolledCourses = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    // Replace with your WordPress REST API endpoint for enrolled courses
+    // Updated WordPress Core REST API endpoint for enrolled courses menu items
     const fetchCourses = async () => {
       try {
-        const response = await axios.get('https://your-wordpress-site.com/wp-json/wp/v2/courses');
-        setCourses(response.data);
+        const token = localStorage.getItem('jwt_token');
+        const headers = token ? { Authorization: `Bearer ${token}` } : {};
+        const response = await axios.get(`${API_BASE_URL}/menu-items?menus=${MENU_ID}`, { headers });
+        // Assuming the courses are in response.data
+        setCourses(response.data || []);
       } catch (err) {
         setError('Failed to fetch courses from WordPress');
       } finally {
@@ -23,19 +28,25 @@ const EnrolledCourses = () => {
   }, []);
 
   if (loading) return <p>Loading enrolled courses...</p>;
-  if (error) return <p>{error}</p>;
+  if (error) return <p className="error-text">{error}</p>;
 
   return (
     <div>
-      <h2>Enrolled Courses</h2>
+      <h2 className="enrolled-courses-title">Enrolled Courses</h2>
       {courses.length === 0 ? (
         <p>No enrolled courses found.</p>
       ) : (
-        <ul>
-          {courses.map(course => (
-            <li key={course.id}>
-              <h3>{course.title.rendered}</h3>
-              <div dangerouslySetInnerHTML={{ __html: course.excerpt.rendered }} />
+        <ul className="courses-list">
+          {courses.map((course) => (
+            <li key={course.ID} className="course-item">
+              <h3 className="course-title">{course.title}</h3>
+              {/* Assuming course has a description or excerpt */}
+              {course.description && (
+                <div
+                  className="course-description"
+                  dangerouslySetInnerHTML={{ __html: course.description }}
+                />
+              )}
             </li>
           ))}
         </ul>

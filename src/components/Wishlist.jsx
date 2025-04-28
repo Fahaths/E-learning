@@ -6,9 +6,9 @@ const Wishlist = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetch('https://testlms.measiit.edu.in/wp-json/wp/v2/wishlist')
+    fetch('https://testlms.measiit.edu.in/wp-json/custom/v1/wishlist')
       .then(res => {
-        if (!res.ok) throw new Error('Failed to fetch wishlist');
+        if (!res.ok) throw new Error('Wishlist data not available. Please check backend configuration.');
         return res.json();
       })
       .then(data => {
@@ -22,7 +22,9 @@ const Wishlist = () => {
   }, []);
 
   if (loading) return <p>Loading wishlist...</p>;
-  if (error) return <p>Error: {error}</p>;
+  if (error) return <p>{error}</p>;
+
+  if (items.length === 0) return <p>Your wishlist is empty.</p>;
 
   return (
     <div>

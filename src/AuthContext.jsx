@@ -145,7 +145,7 @@ export function AuthProvider({ children }) {
         success: false, 
         message: response.data?.message || 'Authentication failed' 
       };
-    } catch (error) {
+      } catch (error) {
       console.group('Login Error Details');
       console.error('Error Message:', error.message);
       console.error('HTTP Status:', error.response?.status);
@@ -160,7 +160,11 @@ export function AuthProvider({ children }) {
       
       let errorMessage = 'Login failed. Please try again.';
       if (error.response?.status === 403) {
-        errorMessage = 'Invalid credentials or account not found';
+        if (error.response?.data?.code === '[jwt_auth] ip_blocked') {
+          errorMessage = 'Too many login attempts. Please try again later.';
+        } else {
+          errorMessage = 'Invalid credentials or account not found';
+        }
       } else if (error.message === 'Request timeout') {
         errorMessage = 'Server is not responding. Please try again later.';
       }
@@ -193,9 +197,15 @@ export function AuthProvider({ children }) {
         }
       } catch (error) {
         console.error('Admin auth error:', error.response?.data || error.message);
+        let errorMessage = 'Could not authenticate admin. Please check WordPress configuration.';
+        if (error.response?.data?.code === '[jwt_auth] invalid_username') {
+          errorMessage = 'Admin authentication failed: Invalid admin username. Please verify REACT_APP_WP_ADMIN_USER environment variable.';
+        } else if (error.response?.data?.code === '[jwt_auth] incorrect_password') {
+          errorMessage = 'Admin authentication failed: Incorrect admin password. Please verify REACT_APP_WP_ADMIN_PASS environment variable.';
+        }
         return {
           success: false,
-          message: 'Could not authenticate admin. Please check WordPress configuration.'
+          message: errorMessage
         };
       }
 

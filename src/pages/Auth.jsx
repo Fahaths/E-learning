@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useAuth } from '../AuthContext'; // Import useAuth from AuthContext
 import { Link, useNavigate } from 'react-router-dom'; // Ensure useNavigate is imported
@@ -32,6 +31,7 @@ const Auth = () => {
   const toggleAuthMode = () => {
     setIsLogin((prevMode) => !prevMode);
     setErrorMessage(''); // Reset error message on mode switch
+    setSuccessMessage('');
   };
 
   const isValidEmail = (email) => {
@@ -66,7 +66,7 @@ const Auth = () => {
     if (!isLogin) {
       const nameInput = document.getElementById('name').value.trim();
       const confirmPassword = document.getElementById('confirmPassword').value.trim();
-      
+
       if (!nameInput) {
         setErrorMessage('Name is required');
         return;
@@ -81,26 +81,35 @@ const Auth = () => {
         return;
       }
 
-      const result = await register(nameInput, emailInput, password);
-      if (result.success) {
-        setSuccessMessage('Signup successful! Please log in.'); // Display success message
-      } else {
-        setErrorMessage(result.message); // Set error message on failure
+      try {
+        const result = await register(nameInput, emailInput, password);
+        if (result.success) {
+          setSuccessMessage('Signup successful! Please log in.'); // Display success message
+          setIsLogin(true); // Switch to login mode after successful signup
+        } else {
+          setErrorMessage(result.message); // Set error message on failure
+        }
+      } catch (error) {
+        setErrorMessage('An unexpected error occurred during signup. Please try again later.');
       }
 
     } else {
-      const result = await login(username, password);
-      if (result.success) {
-        navigate('/dashboard'); // Redirect to dashboard on success
-      } else {
-        setErrorMessage(result.message); // Set error message on failure
+      try {
+        const result = await login(username, password);
+        if (result.success) {
+          navigate('/dashboard'); // Redirect to dashboard on success
+        } else {
+          setErrorMessage(result.message); // Set error message on failure
+        }
+      } catch (error) {
+        setErrorMessage('An unexpected error occurred during login. Please try again later.');
       }
     }
   };
 
   return (
     <div className="auth-container">
-      <form onSubmit={handleSubmit}> 
+      <form onSubmit={handleSubmit}>
         <h2>{isLogin ? 'Login' : 'Signup'}</h2>
         {!isLogin && (
           <div className="input-container">

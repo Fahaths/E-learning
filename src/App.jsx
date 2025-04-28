@@ -16,8 +16,6 @@ import {
   Wishlist,
   Reviews,
   QuizAttempts,
-  OrderHistory,
-  QnA,
   Settings,
 } from './AppImports';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
@@ -42,8 +40,7 @@ function App() {
               <Route path="wishlist" element={<Wishlist />} />
               <Route path="reviews" element={<Reviews />} />
               <Route path="quiz-attempts" element={<QuizAttempts />} />
-              <Route path="order-history" element={<OrderHistory />} />
-              <Route path="qna" element={<QnA />} />
+              {/* Removed order-history and qna routes */}
               <Route path="settings" element={<Settings />} />
             </Route>
             <Route 

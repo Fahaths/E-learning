@@ -6,10 +6,21 @@ const QnA = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetch('https://testlms.measiit.edu.in/wp-json/wp/v2/qna') // Replace with actual endpoint
+    const token = localStorage.getItem('jwt_token');
+    if (!token) {
+      setError('User not authenticated. Please login.');
+      setLoading(false);
+      return;
+    }
+
+    fetch('https://testlms.measiit.edu.in/wp-json/wp/v2/qna', {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    }) // Replace with actual endpoint
       .then((response) => {
         if (!response.ok) {
-          throw new Error('Failed to fetch QnA');
+          throw new Error(`Failed to fetch QnA: ${response.status}`);
         }
         return response.json();
       })
