@@ -175,53 +175,14 @@ export function AuthProvider({ children }) {
 
   const register = async (username, email, password) => {
     try {
-      // First get JWT token for admin user
-      // First authenticate admin user
-      let authResponse;
-      try {
-        authResponse = await api.post('/jwt-auth/v1/token', {
-          username: process.env.REACT_APP_WP_ADMIN_USER,
-          password: process.env.REACT_APP_WP_ADMIN_PASS
-        }, {
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        });
-        
-        if (!authResponse.data.token) {
-          console.error('Admin auth failed:', authResponse.data);
-          return { 
-            success: false, 
-            message: 'Admin authentication failed. Please check credentials.' 
-          };
-        }
-      } catch (error) {
-        console.error('Admin auth error:', error.response?.data || error.message);
-        let errorMessage = 'Could not authenticate admin. Please check WordPress configuration.';
-        if (error.response?.data?.code === '[jwt_auth] invalid_username') {
-          errorMessage = 'Admin authentication failed: Invalid admin username. Please verify REACT_APP_WP_ADMIN_USER environment variable.';
-        } else if (error.response?.data?.code === '[jwt_auth] incorrect_password') {
-          errorMessage = 'Admin authentication failed: Incorrect admin password. Please verify REACT_APP_WP_ADMIN_PASS environment variable.';
-        }
-        return {
-          success: false,
-          message: errorMessage
-        };
-      }
-
-      // Then create new user with admin token
-      const response = await api.post('/wp/v2/users', {
+      // Directly create new user without admin authentication
+      const response = await api.post('/custom/v1/register', {
         username,
         email,
         password,
-        roles: ['subscriber'] // Set default role
-      }, {
-        headers: {
-          'Authorization': 'Bearer ' + authResponse.data.token
-        }
       });
 
-      if (response.data.id) {
+      if (response.data.success) {
         return { 
           success: true,
           message: 'Registration successful. Please login.'

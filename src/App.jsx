@@ -5,7 +5,7 @@ import Footer from './components/Footer';
 import Dashboard from './components/Dashboard'; // Importing the Dashboard component
 import Home from './pages/Home';
 import About from './pages/About';
-import Courses from './pages/Courses'; 
+import Courses from './pages/Courses';
 import Posts from './components/posts';
 import Assingment from './pages/Assingment';
 import Auth from './pages/Auth';
@@ -34,9 +34,27 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<About />} />
             <Route path="/courses" element={<Courses />} />
-            <Route path="/auth" element={<Auth />} /> 
+            <Route path="/auth" element={<Auth />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
-            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/dashboard" element={<Dashboard />}>
+              <Route path="profile" element={<Profile />} />
+              <Route path="enrolled-courses" element={<EnrolledCourses />} />
+              <Route path="wishlist" element={<Wishlist />} />
+              <Route path="reviews" element={<Reviews />} />
+              <Route path="quiz-attempts" element={<QuizAttempts />} />
+              {/* Removed order-history and qna routes */}
+              <Route path="settings" element={<Settings />} />
+            </Route>
+            <Route 
+              path="/profile" 
+              element={
+                isAuthenticated ? (
+                  <Profile />
+                ) : (
+                  <Navigate to="/auth" />
+                )
+              }
+            />
           </Routes>
         </main>
         <Footer />
