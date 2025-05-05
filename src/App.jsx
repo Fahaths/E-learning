@@ -12,20 +12,20 @@ import Auth from './pages/Auth';
 import ForgotPassword from './pages/Forgetpassword'; // Importing the Forgot Password component
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { AuthProvider } from './AuthContext'; // Import AuthProvider
-=======
+
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import Login from './components/Login';
 import Signup from './components/Signup';
 import Dashboard from './components/dashboard';
 import Profile from './components/Profile';
->>>>>>> Stashed changes
+
 
 function App() {
   
 
   return (
-<<<<<<< Updated upstream
+
     <AuthProvider> {/* Wrap the application with AuthProvider */}
       <Router>
         <Header />
@@ -44,7 +44,7 @@ function App() {
 
     </AuthProvider> // Close AuthProvider
   ); // Correctly close the return statement
-=======
+
     <Router>
       <Routes>
         <Route>
@@ -65,7 +65,7 @@ function App() {
       </Routes>
     </Router>
   );
->>>>>>> Stashed changes
+
 }
 
 export default App;
