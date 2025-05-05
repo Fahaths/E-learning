@@ -6,6 +6,7 @@ import Dashboard from './components/dashboard';
 import Home from './pages/Home';
 import About from './pages/About';
 import Courses from './pages/Courses';
+import CourseDetail from './pages/CourseDetail';
 import Posts from './components/posts';
 import Assingment from './pages/Assingment';
 import Auth from './pages/Auth';
@@ -32,9 +33,11 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/courses" element={<Courses />} />
+            <Route path="/courses/:slug" element={<CourseDetail />} />
             <Route path="/auth" element={<Auth />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="/dashboard" element={<Dashboard />}>
+              <Route index element={<Profile />} />
               <Route path="profile" element={<Profile />} />
               <Route path="enrolled-courses" element={<EnrolledCourses />} />
               <Route path="wishlist" element={<Wishlist />} />

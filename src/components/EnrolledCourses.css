@@ -39,6 +39,7 @@
   
   .course-card {
     width: 300px;
+    margin-bottom: 5%;
     border: 1px solid #ddd;
     border-radius: var(--border-radius);
     overflow: hidden;
@@ -55,15 +56,15 @@
   }
   
   .stars {
-    color: orange;
+    color: rgb(255, 251, 0);
     font-size: 18px;
     margin-bottom: 5px;
   }
   
   .course-title {
     font-weight: bold;
-    color: #0000EE;
-    text-decoration: underline;
+    color: #801515;
+    text-decoration: none;
     display: inline-block;
     margin-bottom: 10px;
   }
@@ -91,6 +92,8 @@
     width: 100%;
     padding: 8px;
     background-color: white;
+    font-weight: bold;
+    text-decoration: none;
     border: 1px solid var(--color-primary);
     color: var(--color-primary);
     border-radius: 5px;

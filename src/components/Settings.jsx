@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import './Settings.css';
 
 const Settings = () => {
   const [username, setUsername] = useState('');
@@ -85,11 +86,11 @@ const Settings = () => {
   if (loading) return <p>Loading settings...</p>;
 
   return (
-    <div>
+    <div className="settings-container">
       <h1>User Settings</h1>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      {successMessage && <p style={{ color: 'green' }}>{successMessage}</p>}
-      <form onSubmit={handleSubmit}>
+      {error && <p className="error-message">{error}</p>}
+      {successMessage && <p className="success-message">{successMessage}</p>}
+      <form className="settings-form" onSubmit={handleSubmit}>
         <div>
           <label>Username:</label><br />
           <input
