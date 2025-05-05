@@ -2,7 +2,11 @@ import React, { useState } from 'react';
 import searchIcon from '../assets/search.svg'; // Import the search icon
 import { Link } from 'react-router-dom';
 import './header.css';
+<<<<<<< Updated upstream
 
+=======
+import Auth from '../pages/Auth';
+>>>>>>> Stashed changes
 
 function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);

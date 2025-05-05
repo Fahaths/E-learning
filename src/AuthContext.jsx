@@ -1,6 +1,7 @@
 import React, { createContext, useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import { jwtDecode } from 'jwt-decode'; // Update import to match the new export structure
+import { useNavigate } from 'react-router-dom';
 
 
 const API_URL = 'https://testlms.measiit.edu.in/wp-json';
@@ -42,12 +43,16 @@ export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [activeSessionId, setActiveSessionId] = useState(null);
+  const navigate = useNavigate();
+  const [hasNavigated, setHasNavigated] = useState(false);
 
   useEffect(() => {
     async function loadUser() {
       const token = localStorage.getItem('jwt_token');
       if (token) {
         try {
+          const decodedToken = jwtDecode(token);
+          const hasUserInfo = decodedToken.username || decodedToken.email || decodedToken.sub;
           const response = await api.post('/jwt-auth/v1/token/validate', {}, {
             headers: {
               'Authorization': `Bearer ${token}`
@@ -55,19 +60,31 @@ export function AuthProvider({ children }) {
           });
           
           if (response.status === 200) {
-            setUser(jwtDecode(token));
+            setUser(decodedToken);
+            if (!hasNavigated) {
+              navigate('/dashboard');
+              setHasNavigated(true);
+            }
           } else {
             console.error('Token validation failed:', response.data);
-            localStorage.removeItem('jwt_token');
+            // Remove token only if it is a user token, keep service tokens
+            if (hasUserInfo) {
+              localStorage.removeItem('jwt_token');
+            }
           }
         } catch (error) {
-          localStorage.removeItem('jwt_token');
+          // Remove token only if it is a user token, keep service tokens
+          const decodedToken = jwtDecode(token);
+          const hasUserInfo = decodedToken.username || decodedToken.email || decodedToken.sub;
+          if (hasUserInfo) {
+            localStorage.removeItem('jwt_token');
+          }
         }
       }
       setLoading(false);
     }
     loadUser();
-  }, []);
+  }, [navigate, hasNavigated]);
 
   const login = async (username, password) => {
     try {
@@ -80,12 +97,12 @@ export function AuthProvider({ children }) {
       const existingToken = localStorage.getItem('jwt_token');
       if (existingToken) {
         try {
+          const decodedToken = jwtDecode(existingToken);
+          const hasUserInfo = decodedToken.username || decodedToken.email || decodedToken.sub;
           const validation = await api.post('/jwt-auth/v1/token/validate', {}, {
             headers: { 'Authorization': `Bearer ${existingToken}` }
           });
           if (validation.status === 200) {
-            const decodedToken = jwtDecode(existingToken);
-            const hasUserInfo = decodedToken.username || decodedToken.email || decodedToken.sub;
             
             console.group('Active Session Details');
             console.log('Valid existing token found');
@@ -100,10 +117,16 @@ export function AuthProvider({ children }) {
             console.log('Time Remaining:', 
               Math.round((decodedToken.exp * 1000 - Date.now())/60000) + ' minutes');
             console.groupEnd();
+
+            // Navigate to dashboard on active session found
+            if (!hasNavigated) {
+              navigate('/dashboard');
+              setHasNavigated(true);
+            }
             
             return {
-              success: false,
-              message: 'Active Session Found',
+              success: true,
+              message: 'Active Session Found - Navigated to Dashboard',
               details: hasUserInfo 
                 ? `An active session exists for ${decodedToken.username || decodedToken.email || decodedToken.sub}`
                 : 'An active service session exists',
@@ -116,13 +139,18 @@ export function AuthProvider({ children }) {
                 primary: 'Logout from current session',
                 secondary: ['Close all browser tabs', 'Wait for session to expire']
               },
-              isActiveSessionError: true,
-              statusCode: 409
+              isActiveSessionError: false,
+              statusCode: 200
             };
           }
         } catch (e) {
           // Existing token is invalid, proceed with login
-          localStorage.removeItem('jwt_token');
+          // Remove token only if it is a user token, keep service tokens
+          const decodedToken = jwtDecode(existingToken);
+          const hasUserInfo = decodedToken.username || decodedToken.email || decodedToken.sub;
+          if (hasUserInfo) {
+            localStorage.removeItem('jwt_token');
+          }
         }
       }
 
@@ -137,6 +165,10 @@ export function AuthProvider({ children }) {
       if (response.data?.token) {
         localStorage.setItem('jwt_token', response.data.token);
         setUser(jwtDecode(response.data.token));
+        if (!hasNavigated) {
+          navigate('/dashboard');
+          setHasNavigated(true);
+        }
         return { success: true };
       }
 
