@@ -19,6 +19,15 @@
 .auth-container .input-container {
   position: relative; /* Position relative for the label */
   margin-bottom: 15px; /* Space between input fields */
+  display: flex; /* Use flexbox to align input and icon */
+  align-items: center; /* Vertically center items */
+}
+
+.auth-container .input-container input {
+  flex-grow: 1; /* Let input take available space */
+  width: auto; /* Remove fixed width */
+  margin: 0; /* Remove margin */
+  padding-right: 40px; /* Keep padding for icon */
 }
 
 
@@ -44,6 +53,7 @@
 
 .auth-container input {
   padding: 10px;
+  padding-right: 40px; /* Add padding to the right to make space for the icon */
   border: 1px solid #ccc;
   border-radius: 6px;
   transition: border-color 0.3s ease; /* Add transition for border color */
