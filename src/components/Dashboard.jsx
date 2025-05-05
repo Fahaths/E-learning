@@ -1,34 +1,89 @@
-import React from 'react';
-import { Link, Outlet } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Link, Outlet, useNavigate } from 'react-router-dom';
+import { useAuth } from '../AuthContext';
+import './Dashboard.css';
+import { API_BASE_URL, MENU_ID } from '../config';
+
+import EnrolledCourses from './EnrolledCourses';
+import Settings from './Settings';
+import Wishlist from './Wishlist';
+import QuizAttempts from './QuizAttempts';
+import Reviews from './Reviews';
 
 const Dashboard = () => {
+  const [menuItems, setMenuItems] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  const { logout } = useAuth();
+  const navigate = useNavigate();
+
   const handleLogout = () => {
-    // Add logout logic here
-    console.log('User logged out');
+    logout();
+    navigate('/auth');
   };
 
+  useEffect(() => {
+    const fetchMenuItems = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+        const token = localStorage.getItem('jwt_token');
+        const headers = token ? { Authorization: `Bearer ${token}` } : {};
+        const response = await fetch(`${API_BASE_URL}/menu-items?menus=${MENU_ID}`, { headers });
+        if (!response.ok) {
+          throw new Error('Failed to fetch menu items');
+        }
+        const data = await response.json();
+        console.log('Fetched menu items:', data);
+        if (!data || data.length === 0) {
+          setError('No menu items found in the WordPress menu.');
+        }
+        setMenuItems(data || []);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchMenuItems();
+  }, []);
+
   return (
-    <div style={{ display: 'flex' }}>
+    <div className="container">
       {/* Sidebar */}
-      <div style={{ width: '200px', backgroundColor: '#f4f4f4', padding: '20px' }}>
-        <h2>Dashboard</h2>
-        <ul style={{ listStyle: 'none', padding: 0 }}>
-          <li><Link to="profile">My Profile</Link></li>
-          <li><Link to="enrolled-courses">Enrolled Courses</Link></li>
-          <li><Link to="wishlist">Wishlist</Link></li>
-          <li><Link to="reviews">Reviews</Link></li>
-          <li><Link to="quiz-attempts">My Quiz Attempts</Link></li>
-          <li><Link to="order-history">Order History</Link></li>
-          <li><Link to="qna">Question & Answer</Link></li>
-          <li><Link to="settings">Settings</Link></li>
-          <li><button onClick={handleLogout}>Logout</button></li>
-        </ul>
-      </div>
+      <aside className="sidebar">
+        <div className="sidebar-header">
+          <h2 className="sidebar-title">Dashboard</h2>
+        </div>
+        <nav className="nav">
+          {/* Static links to other components */}
+          <Link to="/dashboard/enrolled-courses" className="nav-link">Enrolled Courses</Link>
+          <Link to="/dashboard/settings" className="nav-link">Settings</Link>
+          <Link to="/dashboard/wishlist" className="nav-link">Wishlist</Link>
+          <Link to="/dashboard/quiz-attempts" className="nav-link">Quiz Attempts</Link>
+          <Link to="/dashboard/reviews" className="nav-link">Reviews</Link>
+
+          <button
+            onClick={handleLogout}
+            className="logout-button"
+          >
+            Logout
+          </button>
+        </nav>
+      </aside>
 
       {/* Main Content */}
-      <div style={{ flex: 1, padding: '20px' }}>
-        <Outlet /> {/* This will render the nested routes */}
-      </div>
+      <main className="main-content">
+        <header className="Dashboard-header">
+          <h1 className="header-title">Welcome to Your Dashboard</h1>
+          <p className="header-subtitle">Here is an overview of your learning activities.</p>
+        </header>
+
+        {/* Dashboard sections like stats, in-progress courses, recent activities can be added here */}
+        <Outlet />
+      </main>
     </div>
   );
 };

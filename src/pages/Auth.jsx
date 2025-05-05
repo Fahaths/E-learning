@@ -17,8 +17,8 @@ const Auth = () => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false); // State for password visibility
   const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] = useState(false); // State for confirm password visibility
 
-  const { login, register } = useAuth(); // Get login and register functions from AuthContext
-  const navigate = useNavigate(); // Initialize useNavigate
+  const { login, register, loading: isLoading } = useAuth();
+  const navigate = useNavigate();
 
   const togglePasswordVisibility = () => {
     setIsPasswordVisible((prev) => !prev); // Toggle password visibility
@@ -31,6 +31,7 @@ const Auth = () => {
   const toggleAuthMode = () => {
     setIsLogin((prevMode) => !prevMode);
     setErrorMessage(''); // Reset error message on mode switch
+    setSuccessMessage('');
   };
 
   const isValidEmail = (email) => {
@@ -41,12 +42,21 @@ const Auth = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    const emailInput = document.getElementById('email').value;
-    const password = document.getElementById('password').value; // Define password here
-    const username = emailInput; // Use emailInput directly
+    const emailInput = document.getElementById('email').value.trim();
+    const password = document.getElementById('password').value.trim();
+    const username = emailInput;
 
+    // Validate all fields
+    if (!emailInput) {
+      setErrorMessage('Email is required');
+      return;
+    }
     if (!isValidEmail(emailInput)) {
       setErrorMessage('Please enter a valid email address');
+      return;
+    }
+    if (!password) {
+      setErrorMessage('Password is required');
       return;
     }
 
@@ -54,34 +64,52 @@ const Auth = () => {
     setSuccessMessage(''); // Reset success message
 
     if (!isLogin) {
-      const nameInput = document.getElementById('name').value; // Get the name input
-      const confirmPassword = document.getElementById('confirmPassword').value;
+      const nameInput = document.getElementById('name').value.trim();
+      const confirmPassword = document.getElementById('confirmPassword').value.trim();
+
+      if (!nameInput) {
+        setErrorMessage('Name is required');
+        return;
+      }
 
       if (password !== confirmPassword) {
         setErrorMessage('Passwords do not match');
         return;
       }
+      if (password.length < 8) {
+        setErrorMessage('Password must be at least 8 characters');
+        return;
+      }
 
-      const result = await register(username, emailInput, password); // Use register from AuthContext
-      if (result.success) {
-        setSuccessMessage('Signup successful! Please log in.'); // Display success message
-      } else {
-        setErrorMessage(result.message); // Set error message on failure
+      try {
+        const result = await register(nameInput, emailInput, password);
+        if (result.success) {
+          setSuccessMessage('Signup successful! Please log in.'); // Display success message
+          setIsLogin(true); // Switch to login mode after successful signup
+        } else {
+          setErrorMessage(result.message); // Set error message on failure
+        }
+      } catch (error) {
+        setErrorMessage('An unexpected error occurred during signup. Please try again later.');
       }
 
     } else {
-      const result = await login(username, password); // Use login from AuthContext
-      if (result.success) {
-        navigate('/dashboard'); // Redirect to dashboard on success
-      } else {
-        setErrorMessage(result.message); // Set error message on failure
+      try {
+        const result = await login(username, password);
+        if (result.success) {
+          navigate('/dashboard'); // Redirect to dashboard on success
+        } else {
+          setErrorMessage(result.message); // Set error message on failure
+        }
+      } catch (error) {
+        setErrorMessage('An unexpected error occurred during login. Please try again later.');
       }
     }
   };
 
   return (
     <div className="auth-container">
-      <form onSubmit={handleSubmit}> 
+      <form onSubmit={handleSubmit}>
         <h2>{isLogin ? 'Login' : 'Signup'}</h2>
         {!isLogin && (
           <div className="input-container">
@@ -140,7 +168,9 @@ const Auth = () => {
         )}
 
         {errorMessage && <p className="error-message">{errorMessage}</p>} {/* Display error message */}
-        <button className='submit' type="submit">{isLogin ? 'Login' : 'Signup'}</button>
+        <button className='submit' type="submit" disabled={isLoading}>
+          {isLoading ? 'Processing...' : (isLogin ? 'Login' : 'Signup')}
+        </button>
         <Link to="/forgot-password" >Forgot Password?</Link> {/* Ensure this matches the correct route */}
         {successMessage && <p className="success-message" style={{ color: 'green' }}>{successMessage}</p>} {/* Display success message in green */}
       </form>
