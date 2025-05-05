@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import searchIcon from '../assets/search.svg'; // Import the search icon
 import { Link } from 'react-router-dom';
 import './header.css';
-import Auth from '../pages/Auth';
+import Auth from '../pages/Auth1';
 
 function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);

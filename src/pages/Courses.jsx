@@ -1,9 +1,8 @@
-import React, { useEffect, useState, useCallback, useRef } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import DOMPurify from 'dompurify';
 import axios from 'axios';
 import ReactPlayer from 'react-player';
-import { Link } from 'react-router-dom';
 import './Courses.css';
 
 function Courses() {
@@ -22,7 +21,17 @@ function Courses() {
         const response = await axios.get('https://testlms.measiit.edu.in/wp-json/wp/v2/courses?categories=react&_embed');
 
         if (Array.isArray(response.data)) {
-          setCourses(response.data);
+          const coursesWithMedia = response.data.map(course => {
+            let featuredMediaUrl = '';
+            if (course._embedded && course._embedded['wp:featuredmedia'] && course._embedded['wp:featuredmedia'][0]) {
+              featuredMediaUrl = course._embedded['wp:featuredmedia'][0].source_url || '';
+            }
+            return {
+              ...course,
+              featured_media_url: featuredMediaUrl
+            };
+          });
+          setCourses(coursesWithMedia);
         } else {
           setError('Unexpected data format received from server');
           console.error('Unexpected response structure:', response.data);
@@ -100,21 +109,23 @@ function Courses() {
                     />
                   </div>
                 ) : course.featured_media_url ? (
-                  <img 
-                    src={`https://testlms.measiit.edu.in/wp-json/wp/v2/media/${course.featured_media}`}
-                    alt={course.title.rendered || 'Course thumbnail'}
-                    loading="lazy"
-                    onError={(e) => {
-                      e.target.src = '/images/course-placeholder.jpg';
-                      e.target.alt = 'Course placeholder';
-                    }}
-                    onLoad={(e) => {
-                      const img = e.target;
-                      if (img.naturalWidth > 300) {
-                        img.src = img.src.replace(/-\d+x\d+\./, '-300x169.');
-                      }
-                    }}
-                  />
+                  <a href={`https://testlms.measiit.edu.in/courses/${course.slug}`} rel="noopener noreferrer">
+                    <img 
+                      src={course.featured_media_url}
+                      alt={course.title.rendered || 'Course thumbnail'}
+                      loading="lazy"
+                      onError={(e) => {
+                        e.target.src = '/images/course-placeholder.jpg';
+                        e.target.alt = 'Course placeholder';
+                      }}
+                      onLoad={(e) => {
+                        const img = e.target;
+                        if (img.naturalWidth > 300) {
+                          img.src = img.src.replace(/-\d+x\d+\./, '-300x169.');
+                        }
+                      }}
+                    />
+                  </a>
                 ) : (
                   <a href={`https://testlms.measiit.edu.in/courses/${course.slug}`} rel="noopener noreferrer" onClick={() => console.log(course.slug)}>
                     <img 
